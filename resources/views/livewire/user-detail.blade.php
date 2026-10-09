@@ -159,7 +159,7 @@
                                     @elseif ($log->client === 'sso')
                                         {{ __('Console (SSO)') }}
                                     @else
-                                        RustDesk {{ $log->client }}@if ($log->device_id) · {{ $log->device_id }}@endif
+                                        {{ $log->client === 'client' ? __('RIQX app') : 'RIQX '.$log->client }}@if ($log->device_id) · {{ $log->device_id }}@endif
                                     @endif
                                     <span class="text-muted">· {{ $log->ip ?: '—' }}</span>
                                 </dt>

@@ -24,8 +24,8 @@
                     <span class="badge bg-info-subtle text-info rd-status-block" title="{{ __('Can be controlled, cannot start sessions') }}">{{ __('Incoming only') }}</span>
                 @endif
                 @unless ($device->trashed())
-                    <a href="rustdesk://{{ $device->rustdesk_id }}" class="btn btn-sm btn-outline-light"
-                       title="{{ __('Connect with RustDesk') }}"><i class="ri-links-line me-1"></i>RustDesk</a>
+                    <a href="riqx://{{ $device->rustdesk_id }}" class="btn btn-sm btn-outline-light"
+                       title="{{ __('Connect with RustDesk') }}"><i class="ri-links-line me-1"></i>RIQX</a>
                     @if (config('cortendesk.native_webclient'))
                         <a href="{{ route('webclient') }}?id={{ $device->rustdesk_id }}"
                            target="cortendesk-webclient" rel="noopener" class="btn btn-sm btn-primary">

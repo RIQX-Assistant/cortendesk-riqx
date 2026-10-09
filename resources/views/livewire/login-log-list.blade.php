@@ -57,6 +57,8 @@
                                 <span class="badge bg-warning-subtle text-warning"><i class="ri-smartphone-line me-1"></i>{{ __('Mobile') }}</span>
                             @elseif ($log->client === 'desktop')
                                 <span class="badge bg-info-subtle text-info"><i class="ri-computer-line me-1"></i>{{ __('Desktop') }}</span>
+                            @elseif ($log->client === 'client')
+                                <span class="badge bg-info-subtle text-info"><i class="ri-computer-line me-1"></i>{{ __('RIQX app') }}</span>
                             @else
                                 <span class="badge bg-secondary-subtle text-secondary">{{ ucfirst($log->client) }}</span>
                             @endif
@@ -114,6 +116,8 @@
                             <span class="badge bg-warning-subtle text-warning">{{ __('Mobile') }}</span>
                         @elseif ($log->client === 'desktop')
                             <span class="badge bg-info-subtle text-info">{{ __('Desktop') }}</span>
+                        @elseif ($log->client === 'client')
+                            <span class="badge bg-info-subtle text-info">{{ __('RIQX app') }}</span>
                         @else
                             <span class="badge bg-secondary-subtle text-secondary">{{ ucfirst($log->client) }}</span>
                         @endif

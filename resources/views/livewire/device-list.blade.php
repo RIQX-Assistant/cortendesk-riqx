@@ -248,7 +248,7 @@
                             @if ($trashed)
                                 <span class="fw-semibold">{{ $device->rustdesk_id }}</span>
                             @else
-                                <a href="rustdesk://{{ $device->rustdesk_id }}" class="fw-semibold"
+                                <a href="riqx://{{ $device->rustdesk_id }}" class="fw-semibold"
                                    title="{{ __('Connect with RustDesk') }}">{{ $device->rustdesk_id }}</a>
                             @endif
                         </td>
@@ -399,7 +399,7 @@
                                 @if ($trashed)
                                     <span class="rd-mini-title text-truncate">{{ $device->rustdesk_id }}</span>
                                 @else
-                                    <a href="rustdesk://{{ $device->rustdesk_id }}" class="rd-mini-title text-truncate"
+                                    <a href="riqx://{{ $device->rustdesk_id }}" class="rd-mini-title text-truncate"
                                        title="{{ __('Connect with RustDesk') }}">{{ $device->rustdesk_id }}</a>
                                 @endif
                                 @if ($trashed)
