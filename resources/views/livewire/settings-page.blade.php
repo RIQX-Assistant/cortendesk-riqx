@@ -457,7 +457,7 @@
                                     </div>
                                     <div class="form-text">
                                         {{ __('Hides the password form so SSO is the only way in. It takes effect only while SSO is enabled and configured, so a provider outage restores password sign-in by itself.') }}
-                                        {!! __(':setting in :file forces it off from the shell.', ['setting' => '<code>CORTENDESK_OIDC_DISABLED=true</code>', 'file' => '<code>.env</code>']) !!}
+                                        {!! __(':setting in :file forces it off from the shell.', ['setting' => '<code>RIQX_OIDC_DISABLED=true</code>', 'file' => '<code>.env</code>']) !!}
                                     </div>
                                 </div>
 

@@ -534,8 +534,8 @@ export class RdApp {
       <div class="rd-tb-brand">
         <img src="/rdclient/logo.png" alt="" width="30" height="30">
         <span class="rd-tb-brandtext">
-          <span class="rd-tb-name">Corten<span>Desk</span></span>
-          <span class="rd-tb-sub">RustDesk Remote Console</span>
+          <span class="rd-tb-name">RIQX</span>
+          <span class="rd-tb-sub">Remote Desktop</span>
         </span>
       </div>
       <div class="rd-tb-island">
@@ -1627,12 +1627,12 @@ export class RdApp {
     this.el.overlay.innerHTML = `
       <div class="rd-card">
         <div class="rd-brand">
-          <img class="rd-logo" src="/rdclient/logo.png" alt="CortenDesk" width="60" height="60">
-          <span class="rd-wordmark">Corten<span>Desk</span></span>
+          <img class="rd-logo" src="/rdclient/logo.png" alt="RIQX" width="60" height="60">
+          <span class="rd-wordmark">RIQX</span>
         </div>
-        <div class="rd-tagline">Web-Based Client ${overlayVersion(this.cfg)}</div>
+        <div class="rd-tagline">Web Client ${overlayVersion(this.cfg)}</div>
         <div class="rd-divider" aria-hidden="true"></div>
-        <p class="rd-help">Enter the client's temporary or permanent password assigned in the RustDesk client.</p>
+        <p class="rd-help">Enter the client's temporary or permanent password assigned in the RIQX app.</p>
         <div class="rd-target" id="rd-target" hidden>
           <span class="rd-target-ic">${device}</span>
           <span class="rd-target-cap">Client ID</span>
@@ -2072,7 +2072,7 @@ export class RdApp {
         const hasDisplayControls = !!currentDisplay?.resolutions.length || !!currentDisplay?.originalResolution ||
           !!parseVirtualDisplayCapability(this.peerPlatform, this.platformAdditions);
         this.el.btnMonitors.hidden = this.displays.length < 2 && !hasDisplayControls;
-        document.title = `${this.peerId} — CortenDesk`;
+        document.title = `${this.peerId} — RIQX`;
         break;
       }
       case 'switchDisplay': {

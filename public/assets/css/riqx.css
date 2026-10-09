@@ -178,3 +178,92 @@ body.rd-auth-bg::before {
     text-decoration: underline;
     text-decoration-color: var(--rd-border-strong);
 }
+
+/* --- Sidebar collapse control --------------------------------------------
+   Lives on the sidebar (always dark, in both themes), so one high-contrast
+   style works everywhere. Expanded: beside the logo. Condensed rail: under
+   the logo, sticky with it; a ring of the rail colour masks the menu items
+   that scroll beneath. Phones: hidden (the sidebar is off-canvas there and
+   the top-bar button opens it). */
+.riqx-rail-toggle {
+    position: absolute;
+    top: 17px;
+    right: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid rgba(150, 190, 255, 0.28);
+    border-radius: 10px;
+    background: #0f1f3b;
+    color: #d4e6ff;
+    font-size: 19px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.riqx-rail-toggle:hover {
+    background: #16305a;
+    border-color: rgba(111, 180, 255, 0.6);
+    color: #ffffff;
+}
+.riqx-rail-toggle:active {
+    background: #1d3b6e;
+}
+.riqx-rail-toggle:focus {
+    outline: none;
+}
+.riqx-rail-toggle:focus-visible {
+    outline: 2px solid #6fb4ff;
+    outline-offset: 2px;
+}
+.riqx-rail-unfold {
+    display: none;
+}
+html[data-rd-sidebar="condensed"] .riqx-rail-fold {
+    display: none;
+}
+html[data-rd-sidebar="condensed"] .riqx-rail-unfold {
+    display: inline;
+}
+[dir="rtl"] .riqx-rail-toggle {
+    right: auto;
+    left: 14px;
+}
+[dir="rtl"] .riqx-rail-toggle i::before {
+    display: inline-block;
+    transform: scaleX(-1);
+}
+html[data-rd-sidebar="condensed"] .riqx-rail-toggle {
+    position: sticky;
+    top: 38px; /* condensed logo: 10px padding + 22px mark, then 6px gap */
+    left: auto;
+    right: auto;
+    display: flex;
+    margin: 6px auto 18px;
+    box-shadow: 0 0 0 17px var(--rd-shell-bg);
+}
+html[data-rd-sidebar="offcanvas"] .riqx-rail-toggle {
+    display: none;
+}
+
+/* The top-bar menu button is only needed on phones now. */
+html:not([data-rd-sidebar="offcanvas"]) .rd-topbar .rd-menu-toggle {
+    display: none;
+}
+.rd-menu-toggle:focus {
+    outline: none;
+}
+.rd-menu-toggle:focus-visible {
+    outline: 2px solid #6fb4ff;
+    outline-offset: -8px;
+    border-radius: 12px;
+}
+
+/* Condensed rail: the hover fly-outs must pass over the top bar, not under it. */
+html[data-rd-sidebar="condensed"] .rd-sidebar {
+    z-index: 1010;
+}

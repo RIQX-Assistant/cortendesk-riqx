@@ -230,7 +230,7 @@
   width: 150px;
 }
 .rd-ft-table td.rd-ft-col-size {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "Vazirmatn Arabic", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 11.5px;
   color: var(--rd-muted);
 }
@@ -291,12 +291,12 @@ tr .rd-ft-ic:has(svg) {
   padding: 8px 18px;
   border: 0;
   border-radius: 9px;
-  background: linear-gradient(160deg, #e77e42 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
+  background: linear-gradient(160deg, #4f8ff7 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
   color: #fff;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(201, 83, 31, 0.3);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 .rd-ft-cta-btn:hover {
   filter: brightness(1.08);
@@ -328,12 +328,12 @@ tr .rd-ft-ic:has(svg) {
   padding: 10px 8px;
   border: 0;
   border-radius: 10px;
-  background: linear-gradient(160deg, #e77e42 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
+  background: linear-gradient(160deg, #4f8ff7 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
   color: #fff;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 5px 14px rgba(201, 83, 31, 0.3);
+  box-shadow: 0 5px 14px rgba(37, 99, 235, 0.3);
   transition: filter 0.15s ease, opacity 0.15s ease, transform 0.05s ease;
 }
 .rd-ft-go:hover:not(:disabled) {
@@ -468,7 +468,7 @@ tr .rd-ft-ic:has(svg) {
   flex: none;
   color: var(--rd-muted);
   font-size: 11.5px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "Vazirmatn Arabic", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 .rd-ft-job-error .rd-ft-job-status {
   color: var(--rd-danger);
@@ -482,7 +482,7 @@ tr .rd-ft-ic:has(svg) {
 .rd-ft-bar-fill {
   height: 100%;
   border-radius: 3px;
-  background: linear-gradient(90deg, #e77e42, var(--rd-accent));
+  background: linear-gradient(90deg, #4f8ff7, var(--rd-accent));
   transition: width 0.3s ease;
 }
 .rd-ft-job-done .rd-ft-bar-fill {
@@ -502,7 +502,7 @@ tr .rd-ft-ic:has(svg) {
 }
 
 .rd-ft-logline {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "Vazirmatn Arabic", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 11.5px;
   color: var(--rd-muted);
   padding: 2px 4px;
@@ -590,7 +590,7 @@ tr .rd-ft-ic:has(svg) {
   border-color: var(--rd-muted);
 }
 .rd-ft-dlg-primary {
-  background: linear-gradient(160deg, #e77e42 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
+  background: linear-gradient(160deg, #4f8ff7 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
   border: 0;
   color: #fff;
 }

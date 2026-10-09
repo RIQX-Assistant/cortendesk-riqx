@@ -1,18 +1,18 @@
-/* CortenDesk web client — top bar, command dock, side panel, connect overlay.
+/* RIQX web client (based on the CortenDesk web client) — top bar, command dock, side panel, connect overlay.
    Dark by default; light overrides keyed off the console's data-bs-theme.
    Palette mirrors the console's own tokens so the client reads as the same
    product, not a bolted-on page. */
 
 :root {
-  --rd-bg: #0b0e14;
-  --rd-surface: #141a24;
-  --rd-surface-2: #1d2532;
-  --rd-surface-3: #242e3d;
-  --rd-border: #2a3444;
-  --rd-fg: #e7ebf3;
-  --rd-muted: #8d97aa;
-  --rd-accent: #e2652e;
-  --rd-accent-2: #c9531f;
+  --rd-bg: #050b18;
+  --rd-surface: #0d1a33;
+  --rd-surface-2: #12223f;
+  --rd-surface-3: #182b4d;
+  --rd-border: #22375e;
+  --rd-fg: #f1f6ff;
+  --rd-muted: #9fb0cc;
+  --rd-accent: #2563eb;
+  --rd-accent-2: #1d4ed8;
   --rd-accent-fg: #ffffff;
   --rd-danger: #ff5d5d;
   --rd-ok: #38c98e;
@@ -22,15 +22,15 @@
 }
 
 [data-bs-theme='light'] {
-  --rd-bg: #eef1f6;
+  --rd-bg: #eef3fb;
   --rd-surface: #ffffff;
-  --rd-surface-2: #eef1f6;
-  --rd-surface-3: #e2e8f1;
-  --rd-border: #d8dee8;
-  --rd-fg: #1d2430;
-  --rd-muted: #66707f;
-  --rd-accent: #d35a24;
-  --rd-accent-2: #b74a1a;
+  --rd-surface-2: #e6edf8;
+  --rd-surface-3: #dbe4f3;
+  --rd-border: #d3ddee;
+  --rd-fg: #0f1d36;
+  --rd-muted: #3e5072;
+  --rd-accent: #2563eb;
+  --rd-accent-2: #1d4ed8;
   --rd-accent-fg: #ffffff;
   --rd-danger: #d43a3a;
   --rd-ok: #1f9e6d;
@@ -49,7 +49,7 @@
   overflow: hidden;
   background: var(--rd-bg);
   color: var(--rd-fg);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  font-family: "Vazirmatn Arabic", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
@@ -986,7 +986,7 @@
   height: 60px;
   border-radius: 14px;
   object-fit: contain;
-  filter: drop-shadow(0 6px 16px rgba(201, 83, 31, 0.4));
+  filter: drop-shadow(0 6px 16px rgba(37, 99, 235, 0.4));
 }
 .rd-wordmark {
   font-size: 40px;
@@ -1100,13 +1100,13 @@
   width: 76px;
   border: 0;
   border-radius: 14px;
-  background: linear-gradient(160deg, #e77e42 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
+  background: linear-gradient(160deg, #4f8ff7 0%, var(--rd-accent) 55%, var(--rd-accent-2) 100%);
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 16px rgba(201, 83, 31, 0.35);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
   transition: filter 0.15s ease, transform 0.05s ease, opacity 0.15s ease;
 }
 .rd-go:hover:not(:disabled) {

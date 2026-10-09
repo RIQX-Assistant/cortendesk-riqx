@@ -145,7 +145,8 @@ return [
     | never permanently lock an operator out of their own console. Turning SSO
     | off also re-enables password sign-in, whatever the stored settings say.
     */
-    'oidc_disabled' => filter_var(env('CORTENDESK_OIDC_DISABLED', false), FILTER_VALIDATE_BOOL),
+    // RIQX: RIQX_OIDC_DISABLED is the name shown in the console; the upstream name still works.
+    'oidc_disabled' => filter_var(env('RIQX_OIDC_DISABLED', env('CORTENDESK_OIDC_DISABLED', false)), FILTER_VALIDATE_BOOL),
 
     /*
     |--------------------------------------------------------------------------

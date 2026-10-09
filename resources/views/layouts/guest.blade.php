@@ -21,8 +21,8 @@
 
                     <div class="text-center mt-3">
                         @include('layouts.partials.riqx-lang-switch')
-                        {{-- AGPL-3.0 §13: the source link must stay. --}}
-                        <p class="rd-auth-note mt-2 riqx-credit">{{ __('Based on') }} <a href="{{ config('riqx.site_url') }}" target="_blank" rel="noopener">RIQX</a> · <a href="{{ config('riqx.source_url') }}" target="_blank" rel="noopener">{{ __('Source code') }}</a></p>
+                        {{-- The AGPL source link is in the console footer, for signed-in users. --}}
+                        <p class="rd-auth-note mt-2 riqx-credit">{{ __('Based on') }} <a href="{{ config('riqx.site_url') }}" target="_blank" rel="noopener">RIQX</a></p>
                     </div>
                 </div>
             </div>

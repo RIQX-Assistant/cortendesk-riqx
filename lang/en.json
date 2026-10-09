@@ -14,6 +14,7 @@
     "How the RustDesk client maintains itself. Unlike the groups above, these are not about an incoming session.": "How the RIQX client maintains itself. Unlike the groups above, these are not about an incoming session.",
     "In RustDesk, open :path and enter your ID server, relay server, key and API server.": "In RIQX, open :path and enter your ID server, relay server, key and API server.",
     "Matched by the controlling device's RustDesk ID, from this user's RustDesk client sign-ins.": "Matched by the controlling device's RIQX ID, from this user's RIQX client sign-ins.",
+    "Needs CortenDesk Server 1.1.0 or later linked to this console.": "Needs RIQX Server 1.1.0 or later linked to this console.",
     "Point RustDesk clients at this console under :path:": "Point RIQX clients at this console under :path:",
     "Pre-register a device by its RustDesk ID; details fill in when it first reports.": "Pre-register a device by its RIQX ID; details fill in when it first reports.",
     "Return to the RustDesk client and try again, or contact your administrator.": "Return to the RIQX client and try again, or contact your administrator.",

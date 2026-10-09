@@ -78,7 +78,7 @@ class ClientAuthController extends Controller
             app(AppriseNotifications::class)->sendAfterResponse(
                 'console.login_failed',
                 'Failed console login',
-                'A RustDesk client sign-in attempt failed.',
+                'A RIQX client sign-in attempt failed.',
                 'client-login:'.sha1((string) $request->ip()),
             );
 

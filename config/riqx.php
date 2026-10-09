@@ -6,7 +6,7 @@
 return [
     // Bump with every RIQX image release: busts browser caches of our CSS/JS
     // (VERSION stays the upstream number, hbbs and clients read it).
-    'revision' => 3,
+    'revision' => 4,
 
     // Console languages: code => name shown in the switch (in its own language).
     'locales' => [

@@ -9,6 +9,13 @@
         </span>
     </a>
 
+    {{-- RIQX: the collapse/expand control sits on the column it moves (the
+         top-bar button only remains for phones, where this column is hidden). --}}
+    <button type="button" class="riqx-rail-toggle" data-rd-toggle="sidebar" aria-label="{{ __('Toggle menu') }}" title="{{ __('Toggle menu') }}">
+        <i class="ri-sidebar-fold-line riqx-rail-fold" aria-hidden="true"></i>
+        <i class="ri-sidebar-unfold-line riqx-rail-unfold" aria-hidden="true"></i>
+    </button>
+
     <div class="rd-sidebar-close" data-rd-dismiss="sidebar" role="button" aria-label="{{ __('Close menu') }}">
         <i class="ri-close-fill align-middle"></i>
     </div>

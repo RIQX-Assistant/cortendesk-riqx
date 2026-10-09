@@ -18,7 +18,7 @@ use OTPHP\TOTP;
  */
 class TwoFactor
 {
-    public const ISSUER = 'CortenDesk';
+    public const ISSUER = 'RIQX';
 
     public const PERIOD = 30;
 
