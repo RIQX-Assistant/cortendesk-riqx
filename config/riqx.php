@@ -6,7 +6,7 @@
 return [
     // Bump with every RIQX image release: busts browser caches of our CSS/JS
     // (VERSION stays the upstream number, hbbs and clients read it).
-    'revision' => 6,
+    'revision' => 7,
 
     // Console languages: code => name shown in the switch (in its own language).
     'locales' => [
@@ -16,6 +16,10 @@ return [
 
     // Used until a user picks a language (account setting or the switch).
     'default_locale' => env('RIQX_DEFAULT_LOCALE', 'fa'),
+
+    // Ads (ADS1 / ADS2): largest upload, and how often the app re-checks.
+    'ads_max_mb' => (int) env('RIQX_ADS_MAX_MB', 50),
+    'ads_poll_seconds' => (int) env('RIQX_ADS_POLL_SECONDS', 600),
 
     // Every date the console prints is shown in this zone (stored values stay UTC).
     'display_timezone' => env('RIQX_DISPLAY_TIMEZONE', 'Asia/Tehran'),

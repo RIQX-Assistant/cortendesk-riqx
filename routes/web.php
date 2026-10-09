@@ -144,6 +144,9 @@ Route::middleware('auth')->group(function () {
     // ClientDownloadManager docblock for why.
     Route::view('/client-downloads', 'client-downloads.index')->name('client-downloads')
         ->middleware('console-can:setting,r');
+    // RIQX: ads shown in the RIQX app (same trust level as Client Downloads).
+    Route::view('/ads', 'riqx.ads')->name('riqx.ads')
+        ->middleware('console-can:setting,r');
     Route::view('/setup', 'setup.index')->name('setup')
         ->middleware('console-can:setting,r');
 

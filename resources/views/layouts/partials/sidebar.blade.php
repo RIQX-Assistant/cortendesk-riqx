@@ -171,6 +171,14 @@
                     </a>
                 </li>
 
+                {{-- RIQX: ads shown in the RIQX app --}}
+                <li class="rd-nav-item {{ request()->routeIs('riqx.ads') ? 'rd-current' : '' }}">
+                    <a href="{{ route('riqx.ads') }}" class="rd-nav-link {{ request()->routeIs('riqx.ads') ? 'active' : '' }}">
+                        <i class="ri-advertisement-line"></i>
+                        <span> {{ __('Ads') }} </span>
+                    </a>
+                </li>
+
                 @php
                     $rdgenUrl = \App\Models\Setting::get('rdgen_url', config('cortendesk.rdgen_url'));
                 @endphp

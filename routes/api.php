@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AuditController;
 use App\Http\Controllers\Api\ClientAuthController;
 use App\Http\Controllers\Api\ClientOidcController;
 use App\Http\Controllers\Api\GroupTabController;
+use App\Http\Controllers\Api\RiqxAdController;
 use App\Http\Controllers\Api\ServerLinkController;
 use App\Http\Controllers\Api\SyncController;
 use App\Http\Middleware\VerifyServerSecret;
@@ -49,6 +50,13 @@ Route::middleware('throttle:240,1')->group(function () {
     Route::post('/audit/conn', [AuditController::class, 'connection']);
     Route::post('/audit/file', [AuditController::class, 'file']);
     Route::post('/audit/alarm', [AuditController::class, 'alarm']);
+});
+
+// ---- RIQX: ads for the app (public, tokenless) ----------------------------
+Route::middleware('throttle:240,1')->group(function () {
+    Route::get('/riqx/ads', [RiqxAdController::class, 'manifest']);
+    Route::get('/riqx/ads/media/{ad}/{sha256}.{ext}', [RiqxAdController::class, 'media'])
+        ->whereNumber('ad')->where('sha256', '[0-9a-f]{64}')->where('ext', '[A-Za-z0-9]{2,5}');
 });
 
 // ---- Bearer-token endpoints ---------------------------------------------

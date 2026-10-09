@@ -64,6 +64,15 @@ return [
             'report' => false,
         ],
 
+        // RIQX: ad media (posters, banners, GIF/WebP, MP4/WebM). Inside the
+        // /data volume in Docker so uploads survive container re-creation.
+        'riqx_ads' => [
+            'driver' => 'local',
+            'root' => env('RIQX_ADS_PATH', is_dir('/data') ? '/data/riqx-ads' : storage_path('app/riqx-ads')),
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
