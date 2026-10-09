@@ -36,7 +36,14 @@ jobs:
           if [ -n "${{ github.event.inputs.tag }}" ]; then t="${{ github.event.inputs.tag }}"; else t="${GITHUB_REF_NAME#riqx-}"; fi
           echo "tag=$t" >> "$GITHUB_OUTPUT"
 
+      # Docker Hub (BuildKit image, php/composer bases) through Google's
+      # public mirror, so a Docker Hub outage does not stop a release.
       - uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: image=mirror.gcr.io/moby/buildkit:buildx-stable-1
+          buildkitd-config-inline: |
+            [registry."docker.io"]
+              mirrors = ["mirror.gcr.io"]
 
       - uses: docker/login-action@v3
         with:
