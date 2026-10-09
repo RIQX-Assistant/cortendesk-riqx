@@ -54,9 +54,9 @@
                             © {{ config('app.name') }}
                         </div>
                         <div class="col-md-6">
-                            {{-- AGPL-3.0: keep the upstream credit and the source link. --}}
+                            {{-- AGPL-3.0 §13: the source link must stay. --}}
                             <div class="text-md-end d-none d-md-block riqx-credit">
-                                <span class="text-muted">{{ __('Based on') }} <a href="{{ config('riqx.upstream_url') }}" target="_blank" rel="noopener">CortenDesk</a> · <a href="{{ config('riqx.source_url') }}" target="_blank" rel="noopener">{{ __('Source code') }}</a></span>
+                                <span class="text-muted">{{ __('Based on') }} <a href="{{ config('riqx.site_url') }}" target="_blank" rel="noopener">RIQX</a> · <a href="{{ config('riqx.source_url') }}" target="_blank" rel="noopener">{{ __('Source code') }}</a></span>
                             </div>
                         </div>
                     </div>

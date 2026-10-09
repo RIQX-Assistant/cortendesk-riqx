@@ -21,8 +21,8 @@
 
                     <div class="text-center mt-3">
                         @include('layouts.partials.riqx-lang-switch')
-                        {{-- AGPL-3.0: keep the upstream credit and the source link. --}}
-                        <p class="rd-auth-note mt-2 riqx-credit">{{ config('app.name') }} · {{ __('Based on') }} <a href="{{ config('riqx.upstream_url') }}" target="_blank" rel="noopener">CortenDesk</a> · <a href="{{ config('riqx.source_url') }}" target="_blank" rel="noopener">{{ __('Source code') }}</a></p>
+                        {{-- AGPL-3.0 §13: the source link must stay. --}}
+                        <p class="rd-auth-note mt-2 riqx-credit">{{ __('Based on') }} <a href="{{ config('riqx.site_url') }}" target="_blank" rel="noopener">RIQX</a> · <a href="{{ config('riqx.source_url') }}" target="_blank" rel="noopener">{{ __('Source code') }}</a></p>
                     </div>
                 </div>
             </div>
