@@ -232,7 +232,7 @@ class AddressBookManager extends Component
         $this->validate([
             'bookName' => 'required|string|max:255',
             'bookNote' => 'nullable|string|max:500',
-        ], [], ['bookName' => 'name', 'bookNote' => 'note']);
+        ], [], ['bookName' => __('name'), 'bookNote' => __('note')]);
 
         $book = AddressBook::create([
             'name' => trim($this->bookName),
@@ -257,7 +257,7 @@ class AddressBookManager extends Component
         $this->validate([
             'bookName' => 'required|string|max:255',
             'bookNote' => 'nullable|string|max:500',
-        ], [], ['bookName' => 'name', 'bookNote' => 'note']);
+        ], [], ['bookName' => __('name'), 'bookNote' => __('note')]);
 
         $oldName = $book->name;
         $book->update([
@@ -312,7 +312,7 @@ class AddressBookManager extends Component
                 Rule::unique('tags', 'name')->where('address_book_id', $book->id),
             ],
             'tagColor' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
-        ], [], ['tagName' => 'tag name', 'tagColor' => 'color']);
+        ], [], ['tagName' => __('tag name'), 'tagColor' => __('color')]);
 
         $tag = Tag::create([
             'address_book_id' => $book->id,
@@ -363,7 +363,7 @@ class AddressBookManager extends Component
 
         if ($this->entryId !== null) {
             $entry = $book->entries()->findOrFail($this->entryId);
-            $this->validate(['entryAlias' => 'nullable|string|max:255'], [], ['entryAlias' => 'alias']);
+            $this->validate(['entryAlias' => 'nullable|string|max:255'], [], ['entryAlias' => __('alias')]);
             $entry->update([
                 'alias' => $this->entryAlias !== '' ? trim($this->entryAlias) : null,
                 'tag_ids' => $tagIds,
@@ -377,7 +377,7 @@ class AddressBookManager extends Component
                     Rule::unique('address_book_entries', 'rustdesk_id')->where('address_book_id', $book->id),
                 ],
                 'entryAlias' => 'nullable|string|max:255',
-            ], [], ['entryRustdeskId' => 'RustDesk ID', 'entryAlias' => 'alias']);
+            ], [], ['entryRustdeskId' => __('RustDesk ID'), 'entryAlias' => __('alias')]);
 
             $entry = $book->entries()->create([
                 'rustdesk_id' => trim($this->entryRustdeskId),
@@ -426,9 +426,9 @@ class AddressBookManager extends Component
         }
 
         $this->validate($rules, [], [
-            'ruleSubjectType' => 'subject',
-            'ruleSubjectId' => 'subject',
-            'rulePermission' => 'permission',
+            'ruleSubjectType' => __('subject'),
+            'ruleSubjectId' => __('subject'),
+            'rulePermission' => __('permission'),
         ]);
 
         AddressBookRule::create([
@@ -599,9 +599,9 @@ class AddressBookManager extends Component
             'users' => User::orderBy('username')->get(['id', 'username', 'name']),
             'userGroups' => UserGroup::orderBy('name')->get(['id', 'name']),
             'permissionLabels' => [
-                AddressBookRule::PERM_READ => 'Read',
-                AddressBookRule::PERM_READ_WRITE => 'Read/Write',
-                AddressBookRule::PERM_FULL => 'Full Control',
+                AddressBookRule::PERM_READ => __('Read'),
+                AddressBookRule::PERM_READ_WRITE => __('Read/Write'),
+                AddressBookRule::PERM_FULL => __('Full Control'),
             ],
         ]);
     }

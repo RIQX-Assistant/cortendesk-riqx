@@ -8,6 +8,7 @@ use App\Http\Controllers\ClientDownloadController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiagnosticsController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\OidcController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\WebClientPageController;
@@ -77,6 +78,10 @@ Route::middleware('throttle:60,1')->group(function () {
     Route::get('/downloads', [ClientDownloadController::class, 'index'])->name('downloads.index');
     Route::get('/downloads/{download}', [ClientDownloadController::class, 'show'])->name('downloads.show');
 });
+
+// RIQX: language switch (topbar and sign-in pages), signed in or not.
+Route::get('/locale/{locale}', [LocaleController::class, 'update'])
+    ->middleware('throttle:30,1')->name('riqx.locale');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

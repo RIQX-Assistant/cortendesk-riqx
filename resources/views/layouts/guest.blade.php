@@ -1,19 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="{{ app()->getLocale() }}" dir="{{ \App\Support\Brand::dir() }}" data-bs-theme="dark">
 <head>
     <meta charset="utf-8"/>
-    <title>@yield('title', 'Sign In') | {{ config('app.name') }}</title>
+    <title>@yield('title', __('Sign In')) | {{ config('app.name') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{ \App\Support\Asset::url('assets/images/cortendesk-sm.svg') }}">
 
     <script src="{{ \App\Support\Asset::url('assets/js/theme-init.js') }}"></script>
-    <link href="{{ \App\Support\Asset::url('assets/vendor/bootstrap/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/fonts/figtree/figtree.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/css/spacing.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/css/shell.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/css/cortendesk.css') }}" rel="stylesheet" type="text/css"/>
+    @include('layouts.partials.riqx-head')
 </head>
 
 <body class="rd-auth-bg position-relative">
@@ -26,7 +20,9 @@
                     @yield('content')
 
                     <div class="text-center mt-3">
-                        <p class="rd-auth-note">CortenDesk — self-hosted RustDesk console</p>
+                        @include('layouts.partials.riqx-lang-switch')
+                        {{-- AGPL-3.0: keep the upstream credit and the source link. --}}
+                        <p class="rd-auth-note mt-2 riqx-credit">{{ config('app.name') }} · {{ __('Based on') }} <a href="{{ config('riqx.upstream_url') }}" target="_blank" rel="noopener">CortenDesk</a> · <a href="{{ config('riqx.source_url') }}" target="_blank" rel="noopener">{{ __('Source code') }}</a></p>
                     </div>
                 </div>
             </div>

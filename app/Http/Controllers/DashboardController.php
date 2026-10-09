@@ -75,7 +75,7 @@ class DashboardController extends Controller
         for ($i = 0; $i < $days; $i++) {
             $date = $from->copy()->addDays($i);
             $key = $date->toDateString();
-            $labels[] = $date->format('M j');
+            $labels[] = \App\Support\LocalDate::short($date);
 
             $byType = $rows->get($key, collect())->keyBy('conn_type');
             $remote[] = (int) ($byType->get(0)->c ?? 0);
@@ -88,9 +88,9 @@ class DashboardController extends Controller
         return [
             'labels' => $labels,
             'series' => [
-                ['name' => AuditConnection::TYPE_LABELS[0], 'data' => $remote],
-                ['name' => 'File Transfer', 'data' => $file],
-                ['name' => 'Other', 'data' => $other],
+                ['name' => __(AuditConnection::TYPE_LABELS[0]), 'data' => $remote],
+                ['name' => __('File Transfer'), 'data' => $file],
+                ['name' => __('Other'), 'data' => $other],
             ],
         ];
     }
@@ -104,7 +104,7 @@ class DashboardController extends Controller
             'linux' => 'Linux',
             'android' => 'Android',
             'ios' => 'iOS',
-            'unknown' => 'Unknown',
+            'unknown' => __('Unknown'),
         ];
 
         $counts = Device::query()->visibleTo($user)->get()
@@ -119,7 +119,7 @@ class DashboardController extends Controller
         $values = $top->values()->all();
 
         if ($otherCount > 0) {
-            $labels[] = 'Other';
+            $labels[] = __('Other');
             $values[] = $otherCount;
         }
 

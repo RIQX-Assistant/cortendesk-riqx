@@ -3,14 +3,14 @@
 
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div>
-                <h4 class="header-title">Pending approval
+                <h4 class="header-title">{{ __('Pending approval') }}
                     <span class="badge bg-warning-subtle text-warning ms-1">{{ $pendingCount }}</span>
                 </h4>
-                <p class="rd-card-sub mb-0">New devices held by the deployment gate. Approve to make them visible, or reject to remove.</p>
+                <p class="rd-card-sub mb-0">{{ __('New devices held by the deployment gate. Approve to make them visible, or reject to remove.') }}</p>
             </div>
             <div class="rd-card-actions">
                 <button type="button" class="btn btn-light" wire:click="$set('pendingTab', false)">
-                    <i class="ri-arrow-left-line me-1"></i>Back to Devices
+                    <i class="ri-arrow-left-line me-1"></i>{{ __('Back to Devices') }}
                 </button>
             </div>
         </div>
@@ -19,7 +19,7 @@
             <div class="rd-toolbar-search">
                 <div class="input-group">
                     <span class="input-group-text"><i class="ri-search-line"></i></span>
-                    <input type="search" class="form-control" placeholder="Search ID, hostname, user, IP…"
+                    <input type="search" class="form-control" placeholder="{{ __('Search ID, hostname, user, IP…') }}"
                            wire:model.live.debounce.300ms="search">
                 </div>
             </div>
@@ -31,12 +31,12 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Device</th>
-                    <th>OS</th>
-                    <th>Version</th>
-                    <th>First Seen</th>
+                    <th>{{ __('Device') }}</th>
+                    <th>{{ __('OS') }}</th>
+                    <th>{{ __('Version') }}</th>
+                    <th>{{ __('First Seen') }}</th>
                     <th>IP</th>
-                    <th class="text-end">Action</th>
+                    <th class="text-end">{{ __('Action') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,20 +52,20 @@
                         </td>
                         <td>{{ $device->os ?: '—' }}</td>
                         <td><span class="badge bg-secondary-subtle text-secondary">{{ $device->version ?: '?' }}</span></td>
-                        <td><span title="{{ $device->created_at }}">{{ $device->created_at?->diffForHumans() ?? '—' }}</span></td>
+                        <td><span title="{{ \App\Support\LocalDate::dateTimeSeconds($device->created_at) }}">{{ $device->created_at?->diffForHumans() ?? '—' }}</span></td>
                         <td class="rd-mono">{{ $device->last_online_ip ?: '—' }}</td>
                         <td class="text-end rd-rowact">
                             @if (auth()->user()?->consoleAllows('device', 'rw'))
                                 <a href="javascript:void(0);" class="text-success me-2" wire:click="approveDevice({{ $device->id }})">
-                                    <i class="ri-check-line me-1"></i>Approve
+                                    <i class="ri-check-line me-1"></i>{{ __('Approve') }}
                                 </a>
                                 <a href="javascript:void(0);" class="text-danger"
                                    wire:click="rejectDevice({{ $device->id }})"
-                                   wire:confirm="Reject device {{ $device->rustdesk_id }}? It will be removed from the console.">
-                                    <i class="ri-close-line me-1"></i>Reject
+                                   wire:confirm="{{ __('Reject device :id? It will be removed from the console.', ['id' => $device->rustdesk_id]) }}">
+                                    <i class="ri-close-line me-1"></i>{{ __('Reject') }}
                                 </a>
                             @else
-                                <span class="text-muted">View only</span>
+                                <span class="text-muted">{{ __('View only') }}</span>
                             @endif
                         </td>
                     </tr>
@@ -74,9 +74,9 @@
                         <td colspan="7" class="rd-empty-cell">
                             <div class="rd-empty">
                                 <div class="rd-empty-icon"><i class="ri-shield-check-line"></i></div>
-                                <p class="rd-empty-title">No devices are awaiting approval.</p>
-                                <p class="rd-empty-text">Everything the deployment gate has held has been dealt with.</p>
-                                <button type="button" class="btn btn-sm btn-outline-light" wire:click="$set('pendingTab', false)">Back to Devices</button>
+                                <p class="rd-empty-title">{{ __('No devices are awaiting approval.') }}</p>
+                                <p class="rd-empty-text">{{ __('Everything the deployment gate has held has been dealt with.') }}</p>
+                                <button type="button" class="btn btn-sm btn-outline-light" wire:click="$set('pendingTab', false)">{{ __('Back to Devices') }}</button>
                             </div>
                         </td>
                     </tr>
@@ -97,7 +97,7 @@
                                 <span class="rd-mini-sub text-truncate">{{ $device->hostname ?: $device->os }}</span>
                             </div>
                         </div>
-                        <span class="badge bg-warning-subtle text-warning flex-shrink-0">Pending</span>
+                        <span class="badge bg-warning-subtle text-warning flex-shrink-0">{{ __('Pending') }}</span>
                     </div>
                     <div class="rd-mini-foot">
                         <span class="rd-mini-sub min-width-0">
@@ -106,10 +106,10 @@
                         </span>
                         <div class="rd-mini-acts">
                             @if (auth()->user()?->consoleAllows('device', 'rw'))
-                                <a href="javascript:void(0);" class="rd-iconbtn text-success" title="Approve" wire:click="approveDevice({{ $device->id }})"><i class="ri-check-line"></i></a>
-                                <a href="javascript:void(0);" class="rd-iconbtn text-danger" title="Reject"
+                                <a href="javascript:void(0);" class="rd-iconbtn text-success" title="{{ __('Approve') }}" wire:click="approveDevice({{ $device->id }})"><i class="ri-check-line"></i></a>
+                                <a href="javascript:void(0);" class="rd-iconbtn text-danger" title="{{ __('Reject') }}"
                                    wire:click="rejectDevice({{ $device->id }})"
-                                   wire:confirm="Reject device {{ $device->rustdesk_id }}?"><i class="ri-close-line"></i></a>
+                                   wire:confirm="{{ __('Reject device :id?', ['id' => $device->rustdesk_id]) }}"><i class="ri-close-line"></i></a>
                             @endif
                         </div>
                     </div>
@@ -117,15 +117,15 @@
             @empty
                 <div class="rd-empty">
                     <div class="rd-empty-icon"><i class="ri-shield-check-line"></i></div>
-                    <p class="rd-empty-title">No devices are awaiting approval.</p>
-                    <p class="rd-empty-text">Everything the deployment gate has held has been dealt with.</p>
-                    <button type="button" class="btn btn-sm btn-outline-light" wire:click="$set('pendingTab', false)">Back to Devices</button>
+                    <p class="rd-empty-title">{{ __('No devices are awaiting approval.') }}</p>
+                    <p class="rd-empty-text">{{ __('Everything the deployment gate has held has been dealt with.') }}</p>
+                    <button type="button" class="btn btn-sm btn-outline-light" wire:click="$set('pendingTab', false)">{{ __('Back to Devices') }}</button>
                 </div>
             @endforelse
         </div>
 
         <div class="rd-tablefoot">
-            <span>Showing {{ $devices->firstItem() ?? 0 }}–{{ $devices->lastItem() ?? 0 }} of {{ $devices->total() }}</span>
+            <span>{{ __('Showing :from–:to of :total', ['from' => $devices->firstItem() ?? 0, 'to' => $devices->lastItem() ?? 0, 'total' => $devices->total()]) }}</span>
             {{ $devices->links() }}
         </div>
     </div>

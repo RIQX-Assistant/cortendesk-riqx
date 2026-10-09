@@ -18,7 +18,7 @@ class TestMessage extends Mailable
 {
     public function envelope(): Envelope
     {
-        return new Envelope(subject: config('app.name').' — test message');
+        return new Envelope(subject: __(':app — test message', ['app' => config('app.name')]));
     }
 
     public function content(): Content

@@ -68,7 +68,7 @@ class TwoFactorSettings extends Component
         $timestep = $secret !== '' ? TwoFactor::verify($secret, $this->confirmCode) : null;
 
         if ($timestep === null) {
-            $this->addError('confirmCode', 'That code is incorrect or has expired. Try the current one.');
+            $this->addError('confirmCode', __('That code is incorrect or has expired. Try the current one.'));
 
             return;
         }
@@ -99,10 +99,10 @@ class TwoFactorSettings extends Component
 
         $this->validate([
             'disablePassword' => ['required', 'string'],
-        ], [], ['disablePassword' => 'password']);
+        ], [], ['disablePassword' => __('password')]);
 
         if (! Hash::check($this->disablePassword, $user->password)) {
-            $this->addError('disablePassword', 'That password is incorrect.');
+            $this->addError('disablePassword', __('That password is incorrect.'));
 
             return;
         }
@@ -122,17 +122,17 @@ class TwoFactorSettings extends Component
 
         // Never let an enforced user disable their way out of the requirement.
         if (RequireTwoFactor::isRequiredFor($user)) {
-            $this->addError('disablePassword', 'Two-factor authentication is required for your account and cannot be disabled.');
+            $this->addError('disablePassword', __('Two-factor authentication is required for your account and cannot be disabled.'));
 
             return;
         }
 
         $this->validate([
             'disablePassword' => ['required', 'string'],
-        ], [], ['disablePassword' => 'password']);
+        ], [], ['disablePassword' => __('password')]);
 
         if (! Hash::check($this->disablePassword, $user->password)) {
-            $this->addError('disablePassword', 'That password is incorrect.');
+            $this->addError('disablePassword', __('That password is incorrect.'));
 
             return;
         }

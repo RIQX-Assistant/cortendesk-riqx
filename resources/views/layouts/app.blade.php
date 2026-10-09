@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 @php($rdTheme = auth()->user()?->themePreference() ?? 'dark')
-<html lang="en" data-bs-theme="{{ $rdTheme === 'light' ? 'light' : 'dark' }}" data-rd-theme-pref="{{ $rdTheme }}" data-rd-sidebar="expanded">
+<html lang="{{ app()->getLocale() }}" dir="{{ \App\Support\Brand::dir() }}" data-bs-theme="{{ $rdTheme === 'light' ? 'light' : 'dark' }}" data-rd-theme-pref="{{ $rdTheme }}" data-rd-sidebar="expanded">
 <head>
     <meta charset="utf-8"/>
-    <title>@yield('title', 'Console') | {{ config('app.name') }}</title>
+    <title>@yield('title', __('Console')) | {{ config('app.name') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CortenDesk — self-hosted RustDesk server console"/>
+    <meta name="description" content="{{ __('RIQX remote desktop console') }}"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{ \App\Support\Asset::url('assets/images/cortendesk-sm.svg') }}">
 
     <!-- Theme + sidebar state before first paint (no flash) -->
     <script src="{{ \App\Support\Asset::url('assets/js/theme-init.js') }}"></script>
 
-    <link href="{{ \App\Support\Asset::url('assets/vendor/bootstrap/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/fonts/figtree/figtree.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/css/spacing.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/css/shell.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ \App\Support\Asset::url('assets/css/cortendesk.css') }}" rel="stylesheet" type="text/css"/>
+    @include('layouts.partials.riqx-head')
 </head>
 
 <body>
@@ -36,7 +30,7 @@
                             <div class="rd-page-head">
                                 <div class="rd-page-crumbs">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="{{ route('overview') }}">CortenDesk</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('overview') }}">{{ config('app.name') }}</a></li>
                                         @hasSection('subtitle')
                                             <li class="breadcrumb-item"><a href="javascript:void(0);">@yield('subtitle')</a></li>
                                         @endif
@@ -57,11 +51,12 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <script>document.write(new Date().getFullYear())</script> © CortenDesk
+                            © {{ config('app.name') }}
                         </div>
                         <div class="col-md-6">
-                            <div class="text-md-end d-none d-md-block">
-                                <span class="text-muted">Self-hosted RustDesk console</span>
+                            {{-- AGPL-3.0: keep the upstream credit and the source link. --}}
+                            <div class="text-md-end d-none d-md-block riqx-credit">
+                                <span class="text-muted">{{ __('Based on') }} <a href="{{ config('riqx.upstream_url') }}" target="_blank" rel="noopener">CortenDesk</a> · <a href="{{ config('riqx.source_url') }}" target="_blank" rel="noopener">{{ __('Source code') }}</a></span>
                             </div>
                         </div>
                     </div>
@@ -71,6 +66,7 @@
 
     </div>
 
+    <script>window.riqxI18n = {copied: @js(__('Copied')), pressCtrlC: @js(__('Press Ctrl+C to copy'))};</script>
     <script src="{{ \App\Support\Asset::url('assets/vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ \App\Support\Asset::url('assets/js/shell.js') }}"></script>
     <script src="{{ \App\Support\Asset::url('assets/js/cortendesk.js') }}"></script>

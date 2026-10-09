@@ -5,18 +5,18 @@
             {{-- Only shown while the sidebar is off-canvas (phones). --}}
             <div class="rd-topbar-logo">
                 <a href="{{ route('overview') }}">
-                    <img src="{{ asset('assets/images/cortendesk-sm.svg') }}" alt="CortenDesk" height="28">
+                    <img src="{{ \App\Support\Brand::url('mark.png') }}" alt="{{ config('app.name') }}" height="28">
                 </a>
             </div>
 
-            <button type="button" class="rd-menu-toggle" data-rd-toggle="sidebar" aria-label="Toggle menu">
+            <button type="button" class="rd-menu-toggle" data-rd-toggle="sidebar" aria-label="{{ __('Toggle menu') }}">
                 <i class="ri-menu-2-fill"></i>
             </button>
         </div>
 
         @php
             $rdUser = auth()->user();
-            $rdRole = $rdUser?->is_admin ? 'Administrator' : ($rdUser?->role?->name ?? 'User');
+            $rdRole = $rdUser?->is_admin ? __('Administrator') : ($rdUser?->role?->name ?? __('User'));
         @endphp
 
         <ul class="rd-topbar-menu d-flex align-items-center">
@@ -24,13 +24,13 @@
             @if ($rdUser?->consoleAllows('setting') && ($newVersion = \App\Support\UpdateChecker::upgradeAvailable()))
                 <li class="rd-topbar-upgrade">
                     <a class="nav-link" href="{{ \App\Support\UpdateChecker::releaseNotesUrl($newVersion) }}" target="_blank" rel="noopener"
-                       data-bs-toggle="tooltip" data-bs-placement="bottom" title="Version {{ $newVersion }} is available. Opens the release notes.">
+                       data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ __('Version :version is available. Opens the release notes.', ['version' => $newVersion]) }}">
                         {{-- The widest thing in the bar at ~150px. Below sm the icon carries
                              it alone; the tooltip and the sidebar footer still name the
                              version, so nothing is lost. Same label, icon and link as the
                              sidebar badge (#67). --}}
                         <span class="rd-shell-badge">
-                            <i class="ri-download-cloud-2-line"></i><span class="d-none d-sm-inline">Update to v{{ $newVersion }}</span>
+                            <i class="ri-download-cloud-2-line"></i><span class="d-none d-sm-inline">{{ __('Update to v:version', ['version' => $newVersion]) }}</span>
                         </span>
                     </a>
                 </li>
@@ -39,14 +39,19 @@
             {{-- Reachable at every width. It used to drop below sm, which left the
                  light palette unreachable on a phone — the one screen size where
                  someone is most likely to be outdoors and want it. --}}
+            {{-- RIQX: language switch. --}}
+            <li class="d-flex align-items-center px-1">
+                @include('layouts.partials.riqx-lang-switch')
+            </li>
+
             <li>
-                <div class="nav-link rd-topbar-btn rd-theme-toggle" data-rd-toggle="theme" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Theme Mode">
+                <div class="nav-link rd-topbar-btn rd-theme-toggle" data-rd-toggle="theme" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ __('Theme Mode') }}">
                     <i class="ri-moon-line"></i>
                 </div>
             </li>
 
             <li class="d-none d-md-inline-block">
-                <a class="nav-link rd-topbar-btn" href="#" data-rd-toggle="fullscreen" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Full Screen">
+                <a class="nav-link rd-topbar-btn" href="#" data-rd-toggle="fullscreen" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ __('Full Screen') }}">
                     <i class="ri-fullscreen-line"></i>
                 </a>
             </li>
@@ -71,12 +76,12 @@
 
                     <a href="{{ route('account') }}" class="dropdown-item">
                         <i class="ri-account-circle-line"></i>
-                        <span>My Account</span>
+                        <span>{{ __('My Account') }}</span>
                     </a>
 
                     <a href="{{ route('account.two-factor') }}" class="dropdown-item">
                         <i class="ri-shield-keyhole-line"></i>
-                        <span>Two-Factor Authentication</span>
+                        <span>{{ __('Two-Factor Authentication') }}</span>
                     </a>
 
                     <div class="dropdown-divider"></div>
@@ -85,7 +90,7 @@
                         @csrf
                         <button type="submit" class="dropdown-item">
                             <i class="ri-logout-box-line"></i>
-                            <span>Logout</span>
+                            <span>{{ __('Logout') }}</span>
                         </button>
                     </form>
                 </div>

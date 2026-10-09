@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Alarm Log')
-@section('subtitle', 'Logs')
+@section('title', __('Alarm Log'))
+@section('subtitle', __('Logs'))
 
 @section('content')
     @livewire(App\Livewire\AlarmLogList::class)

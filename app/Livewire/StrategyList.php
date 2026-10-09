@@ -273,7 +273,7 @@ class StrategyList extends Component
             'formNote' => ['nullable', 'string', 'max:500'],
             'formConfirmationTimeout' => ['required', 'integer', 'min:1', 'max:10080'],
             'revisionNote' => ['nullable', 'string', 'max:500'],
-        ], [], ['formName' => 'name', 'formNote' => 'note']);
+        ], [], ['formName' => __('name'), 'formNote' => __('note')]);
 
         $options = $this->validatedOptions();
         if ($this->getErrorBag()->isNotEmpty()) {
@@ -305,7 +305,7 @@ class StrategyList extends Component
         $this->authorizeConsole('strategy', 'rw');
 
         if (! $this->previewing || $this->previewFingerprint === null || $this->previewTargetId === null) {
-            $this->addError('preview', 'Review the strategy impact before applying it.');
+            $this->addError('preview', __('Review the strategy impact before applying it.'));
 
             return;
         }
@@ -317,14 +317,14 @@ class StrategyList extends Component
         // block registrations and approvals behind an operator's confirmation.
         $currentImpact = StrategyImpact::preview($target, $snapshot);
         if (! hash_equals($this->previewFingerprint, $currentImpact['fingerprint'])) {
-            $this->addError('preview', 'The strategy or fleet changed after the preview. Review the impact again.');
+            $this->addError('preview', __('The strategy or fleet changed after the preview. Review the impact again.'));
 
             return;
         }
 
         if ($this->pendingDeleteId !== null) {
             if ($target === null || $target->id !== $this->pendingDeleteId) {
-                $this->addError('preview', 'The deletion target changed after the preview. Review the impact again.');
+                $this->addError('preview', __('The deletion target changed after the preview. Review the impact again.'));
 
                 return;
             }
@@ -473,7 +473,7 @@ class StrategyList extends Component
         $this->closeHistory();
         $this->edit($strategy->id);
         $this->restoreRevisionId = $revision->id;
-        $this->revisionNote = 'Restored revision '.$revision->revision;
+        $this->revisionNote = __('Restored revision :revision', ['revision' => $revision->revision]);
         // Restoring an old policy never replays routing identity.
         $this->formNote = (string) ($snapshot['note'] ?? '');
         $this->formEnforce = (bool) ($snapshot['enforce'] ?? false);
@@ -656,8 +656,10 @@ class StrategyList extends Component
             if ($spec['type'] === 'int' && ! (ctype_digit($value)
                 && (int) $value >= ($spec['min'] ?? 0)
                 && (int) $value <= ($spec['max'] ?? PHP_INT_MAX))) {
-                $this->addError('formOptions.'.$key, 'Enter a whole number between '
-                    .($spec['min'] ?? 0).' and '.($spec['max'] ?? PHP_INT_MAX).'.');
+                $this->addError('formOptions.'.$key, __('Enter a whole number between :min and :max.', [
+                    'min' => $spec['min'] ?? 0,
+                    'max' => $spec['max'] ?? PHP_INT_MAX,
+                ]));
 
                 continue;
             }
@@ -684,25 +686,28 @@ class StrategyList extends Component
             foreach ($keys as $key => $spec) {
                 $meta = self::OPTION_META[$key] ?? [];
                 // `allow-*` keys read as a permission, the rest as a switch.
-                $on = str_starts_with($key, 'allow-') ? 'Allowed' : 'Enabled';
-                $off = str_starts_with($key, 'allow-') ? 'Not allowed' : 'Disabled';
+                $on = str_starts_with($key, 'allow-') ? __('Allowed') : __('Enabled');
+                $off = str_starts_with($key, 'allow-') ? __('Not allowed') : __('Disabled');
 
                 $choices = match ($spec['type']) {
                     'bool' => ['Y' => $on, 'N' => $off],
-                    'enum' => $meta['choices'] ?? [],
+                    'enum' => array_map(fn ($choice) => __($choice), $meta['choices'] ?? []),
                     default => null,
                 };
 
                 $options[$key] = [
                     'key' => $key,
                     'type' => $spec['type'],
-                    'label' => $meta['label'] ?? $key,
-                    'help' => $meta['help'] ?? null,
+                    'label' => isset($meta['label']) ? __($meta['label']) : $key,
+                    'help' => isset($meta['help']) ? __($meta['help']) : null,
                     'choices' => $choices,
                 ];
             }
 
-            $catalog[$group] = self::GROUP_META[$group] + ['options' => $options];
+            $catalog[$group] = [
+                'title' => __(self::GROUP_META[$group]['title']),
+                'help' => __(self::GROUP_META[$group]['help']),
+            ] + self::GROUP_META[$group] + ['options' => $options];
         }
 
         return $catalog;

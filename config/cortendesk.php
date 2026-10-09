@@ -156,5 +156,5 @@ return [
     | and hides the badge and the release status line, for installs that must
     | not call out or that get their updates from a packager.
     */
-    'update_check' => filter_var(env('CORTENDESK_UPDATE_CHECK', true), FILTER_VALIDATE_BOOL),
+    'update_check' => filter_var(env('CORTENDESK_UPDATE_CHECK', false), FILTER_VALIDATE_BOOL),
 ];

@@ -160,7 +160,7 @@ class ConsoleAuditList extends Component
     {
         return view('livewire.console-audit-list', [
             'audits' => $this->query()->paginate($this->perPage),
-            'actions' => self::ACTIONS,
+            'actions' => array_map(fn ($label) => __($label), self::ACTIONS),
         ]);
     }
 }

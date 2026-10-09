@@ -13,7 +13,7 @@
         'ios' => ['ri-apple-line', 'text-body'],
         default => ['ri-question-line', 'text-muted'],
     };
-    $label = ['windows' => 'Windows', 'macos' => 'macOS', 'linux' => 'Linux', 'android' => 'Android', 'ios' => 'iOS'][$platform] ?? 'Unknown';
+    $label = ['windows' => 'Windows', 'macos' => 'macOS', 'linux' => 'Linux', 'android' => 'Android', 'ios' => 'iOS'][$platform] ?? __('Unknown');
 @endphp
 
 <i {{ $attributes->merge(['class' => "$icon $color $size align-middle"]) }} title="{{ $label }}"></i>

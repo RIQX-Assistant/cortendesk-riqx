@@ -1,0 +1,165 @@
+/* RIQX brand layer — loaded after cortendesk.css (or its .rtl copy).
+   Colours from riqx.one: navy surfaces, brand blue #2563eb (fill, light
+   theme text) and #6fb4ff (text and indicators on dark). White text on
+   #6fb4ff is unreadable, so filled controls keep #2563eb in both themes. */
+
+:root {
+    --rd-bg: #050b18;
+    --rd-bg-rgb: 5, 11, 24;
+    --rd-surface: #0d1a33;
+    --rd-surface-rgb: 13, 26, 51;
+    --rd-surface-2: #12223f;
+    --rd-surface-2-rgb: 18, 34, 63;
+    --rd-surface-3: #182b4d;
+
+    --rd-border: rgba(150, 190, 255, 0.09);
+    --rd-border-strong: rgba(150, 190, 255, 0.16);
+
+    --rd-ink: #f1f6ff;
+    --rd-ink-rgb: 241, 246, 255;
+    --rd-ink-muted: #9fb0cc;
+    --rd-ink-muted-rgb: 159, 176, 204;
+    --rd-ink-dim: #7486a6;
+
+    --rd-accent: #2563eb;
+    --rd-accent-rgb: 37, 99, 235;
+    --rd-accent-soft: rgba(111, 180, 255, 0.16);
+    --rd-accent-ink: #6fb4ff;
+    --rd-accent-hover: #1d4ed8;
+
+    --rd-shell-accent: #6fb4ff;
+    --rd-shell-accent-soft: rgba(111, 180, 255, 0.16);
+}
+
+html[data-bs-theme="light"] {
+    --rd-bg: #eef3fb;
+    --rd-bg-rgb: 238, 243, 251;
+    --rd-surface: #ffffff;
+    --rd-surface-rgb: 255, 255, 255;
+    --rd-surface-2: #e6edf8;
+    --rd-surface-2-rgb: 230, 237, 248;
+    --rd-surface-3: #dbe4f3;
+
+    --rd-border: rgba(15, 29, 54, 0.1);
+    --rd-border-strong: rgba(15, 29, 54, 0.17);
+
+    --rd-ink: #0f1d36;
+    --rd-ink-rgb: 15, 29, 54;
+    --rd-ink-muted: #3e5072;
+    --rd-ink-muted-rgb: 62, 80, 114;
+    --rd-ink-dim: #64748f;
+
+    --rd-accent-soft: rgba(37, 99, 235, 0.12);
+    --rd-accent-ink: #1d4ed8;
+
+    /* The chrome stays dark in light mode (see cortendesk.css). */
+    --rd-shell-bg: #08132a;
+    --rd-shell-2: #12223f;
+    --rd-shell-border: rgba(150, 190, 255, 0.09);
+    --rd-shell-border-strong: rgba(150, 190, 255, 0.16);
+    --rd-shell-ink: #f1f6ff;
+    --rd-shell-ink-muted: #9fb0cc;
+    --rd-shell-ink-dim: #7486a6;
+    --rd-shell-accent: #6fb4ff;
+    --rd-shell-accent-soft: rgba(111, 180, 255, 0.16);
+}
+
+/* Persian: Vazirmatn first, Figtree still draws Latin runs it covers. */
+html[lang="fa"],
+html[lang="fa"] [data-bs-theme] {
+    --bs-font-sans-serif: "Vazirmatn", "Figtree", sans-serif;
+}
+html[lang="fa"] body {
+    line-height: 1.7;
+}
+html[lang="fa"] h1, html[lang="fa"] h2, html[lang="fa"] h3,
+html[lang="fa"] h4, html[lang="fa"] h5, html[lang="fa"] h6 {
+    line-height: 1.45;
+}
+
+/* IDs, keys, IPs, versions and code stay left-to-right inside RTL text. */
+[dir="rtl"] code,
+[dir="rtl"] kbd,
+[dir="rtl"] pre,
+[dir="rtl"] .font-monospace,
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="url"],
+[dir="rtl"] input[type="password"],
+.riqx-ltr {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+[dir="rtl"] code,
+[dir="rtl"] .font-monospace {
+    display: inline-block;
+}
+
+/* Remix icons that point somewhere follow the reading direction. */
+[dir="rtl"] .ri-arrow-right-line, [dir="rtl"] .ri-arrow-left-line,
+[dir="rtl"] .ri-arrow-right-s-line, [dir="rtl"] .ri-arrow-left-s-line,
+[dir="rtl"] .ri-arrow-right-up-line, [dir="rtl"] .ri-logout-box-line,
+[dir="rtl"] .ri-logout-box-r-line, [dir="rtl"] .ri-login-box-line,
+[dir="rtl"] .ri-menu-2-fill {
+    display: inline-block;
+    transform: scaleX(-1);
+}
+
+/* --- Sign-in pages ------------------------------------------------------- */
+body.rd-auth-bg {
+    background-color: #050b18;
+}
+body.rd-auth-bg::before {
+    background:
+        radial-gradient(60% 50% at 15% 10%, rgba(79, 163, 255, 0.22) 0%, transparent 70%),
+        radial-gradient(50% 45% at 90% 20%, rgba(155, 140, 255, 0.18) 0%, transparent 70%),
+        radial-gradient(55% 50% at 80% 95%, rgba(47, 212, 168, 0.14) 0%, transparent 70%),
+        radial-gradient(45% 40% at 10% 90%, rgba(255, 181, 71, 0.10) 0%, transparent 70%),
+        linear-gradient(160deg, #070f20 0%, #050b18 55%, #08132a 100%);
+}
+.rd-auth-head {
+    background: radial-gradient(120% 140% at 50% 0%, #16305a 0%, #0b1a36 60%, #070f20 100%);
+}
+.rd-auth-brand-logo {
+    border-radius: 0;
+    filter: drop-shadow(0 6px 18px rgba(79, 163, 255, 0.35));
+}
+.rd-auth-brand-wordmark span {
+    color: #6fb4ff;
+}
+
+/* Language switch (topbar and sign-in pages). */
+.riqx-lang-switch {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--rd-border-strong);
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1;
+}
+.riqx-lang-switch a {
+    padding: 5px 10px;
+    border-radius: 999px;
+    color: var(--rd-ink-muted);
+    font-weight: 600;
+}
+.riqx-lang-switch a.active {
+    background: var(--rd-accent);
+    color: #fff;
+}
+.rd-topbar .riqx-lang-switch {
+    border-color: var(--rd-shell-border-strong);
+}
+.rd-topbar .riqx-lang-switch a {
+    color: var(--rd-shell-ink-muted);
+}
+.rd-topbar .riqx-lang-switch a.active {
+    color: #fff;
+}
+
+/* Footer credit required by the AGPL notice. */
+.riqx-credit a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--rd-border-strong);
+}

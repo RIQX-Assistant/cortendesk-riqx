@@ -19,7 +19,7 @@ class EnsureAdmin
         if (! $user || ! $user->is_admin) {
             return redirect()
                 ->route('overview')
-                ->with('denied', 'That section is restricted to administrators.');
+                ->with('denied', __('That section is restricted to administrators.'));
         }
 
         return $next($request);

@@ -1,27 +1,27 @@
 <div>
     @php
         $resourceLabels = [
-            'device' => 'Devices',
-            'user' => 'Users',
-            'group' => 'Groups',
-            'strategy' => 'Strategies',
-            'address_book' => 'Address books',
-            'audit' => 'Audit logs',
+            'device' => __('Devices'),
+            'user' => __('Users'),
+            'group' => __('Groups'),
+            'strategy' => __('Strategies'),
+            'address_book' => __('Address books'),
+            'audit' => __('Audit logs'),
         ];
-        $levelLabels = ['none' => 'None', 'r' => 'Read', 'rw' => 'Read/Write'];
+        $levelLabels = ['none' => __('None'), 'r' => __('Read'), 'rw' => __('Read/Write')];
     @endphp
 
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center gap-2 flex-wrap">
             <div>
-                <h4 class="header-title">API Tokens</h4>
-                <p class="rd-card-sub mb-0">Scoped Bearer tokens for the automation REST API (<code>/api/v1/…</code>).
-                    Grant each token only the resources your scripts need. See <code>docs/admin-api.md</code>.</p>
+                <h4 class="header-title">{{ __('API Tokens') }}</h4>
+                <p class="rd-card-sub mb-0">{!! __('Scoped Bearer tokens for the automation REST API (:path).', ['path' => '<code>/api/v1/…</code>']) !!}
+                    {{ __('Grant each token only the resources your scripts need.') }} {!! __('See :doc.', ['doc' => '<code>docs/admin-api.md</code>']) !!}</p>
             </div>
             @if (auth()->user()?->consoleAllows('token', 'rw'))
                 <div class="rd-card-actions">
                     <button type="button" class="btn btn-primary" wire:click="create">
-                        <i class="ri-add-line"></i>New Token
+                        <i class="ri-add-line"></i>{{ __('New Token') }}
                     </button>
                 </div>
             @endif
@@ -33,10 +33,10 @@
                 <div class="alert alert-success mb-0 w-100">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="me-2">
-                            <strong><i class="ri-check-line me-1"></i>Token created.</strong>
-                            <div class="fs-13">Copy it now — it is shown only once and cannot be retrieved later.</div>
+                            <strong><i class="ri-check-line me-1"></i>{{ __('Token created.') }}</strong>
+                            <div class="fs-13">{{ __('Copy it now — it is shown only once and cannot be retrieved later.') }}</div>
                         </div>
-                        <button type="button" class="btn-close" wire:click="dismissPlaintext" aria-label="Dismiss"></button>
+                        <button type="button" class="btn-close" wire:click="dismissPlaintext" aria-label="{{ __('Dismiss') }}"></button>
                     </div>
                     <div class="input-group input-group-sm mt-2">
                         <input type="text" class="form-control font-monospace" readonly value="{{ $plaintext }}">
@@ -54,12 +54,12 @@
                 <table class="table table-hover table-centered mb-0">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Permissions</th>
-                        <th>Created by</th>
-                        <th>Last used</th>
-                        <th>Expires</th>
-                        <th class="text-end">Action</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Permissions') }}</th>
+                        <th>{{ __('Created by') }}</th>
+                        <th>{{ __('Last used') }}</th>
+                        <th>{{ __('Expires') }}</th>
+                        <th class="text-end">{{ __('Action') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,25 +86,25 @@
                             <td>{{ $token->user?->username ?? '—' }}</td>
                             <td>
                                 @if ($token->last_used_at)
-                                    <span title="{{ $token->last_used_at }}">{{ $token->last_used_at->diffForHumans() }}</span>
+                                    <span title="{{ \App\Support\LocalDate::dateTimeSeconds($token->last_used_at) }}">{{ $token->last_used_at->diffForHumans() }}</span>
                                 @else
-                                    <span class="text-muted">Never</span>
+                                    <span class="text-muted">{{ __('Never') }}</span>
                                 @endif
                             </td>
                             <td>
                                 @if ($token->expires_at)
-                                    <span class="{{ $token->isExpired() ? 'text-danger' : '' }}" title="{{ $token->expires_at }}">
-                                        {{ $token->expires_at->format('Y-m-d') }}
+                                    <span class="{{ $token->isExpired() ? 'text-danger' : '' }}" title="{{ \App\Support\LocalDate::dateTimeSeconds($token->expires_at) }}">
+                                        {{ \App\Support\LocalDate::date($token->expires_at) }}
                                     </span>
                                 @else
-                                    <span class="text-muted">Never</span>
+                                    <span class="text-muted">{{ __('Never') }}</span>
                                 @endif
                             </td>
                             <td class="text-end rd-rowact">
                                 @if (auth()->user()?->consoleAllows('token', 'rw'))
                                     <a href="javascript:void(0);" class="text-danger"
                                        wire:click="revoke({{ $token->id }})"
-                                       wire:confirm="Revoke token “{{ $token->name }}”? Any script using it stops working immediately.">Revoke</a>
+                                       wire:confirm="{{ __('Revoke token “:name”? Any script using it stops working immediately.', ['name' => $token->name]) }}">{{ __('Revoke') }}</a>
                                 @endif
                             </td>
                         </tr>
@@ -113,10 +113,10 @@
                             <td colspan="6" class="rd-empty-cell">
                                 <div class="rd-empty">
                                     <div class="rd-empty-icon"><i class="ri-key-2-line"></i></div>
-                                    <p class="rd-empty-title">No API tokens yet.</p>
-                                    <p class="rd-empty-text">A token lets a script talk to the console API without a password.</p>
+                                    <p class="rd-empty-title">{{ __('No API tokens yet.') }}</p>
+                                    <p class="rd-empty-text">{{ __('A token lets a script talk to the console API without a password.') }}</p>
                                     @if (auth()->user()?->consoleAllows('token', 'rw'))
-                                        <button type="button" class="btn btn-sm btn-outline-light" wire:click="create">New Token</button>
+                                        <button type="button" class="btn btn-sm btn-outline-light" wire:click="create">{{ __('New Token') }}</button>
                                     @endif
                                 </div>
                             </td>
@@ -136,9 +136,9 @@
                                     <span class="rd-mini-sub rd-mono">{{ $token->token_prefix }}…</span>
                                 </div>
                                 @if (auth()->user()?->consoleAllows('token', 'rw'))
-                                    <a href="javascript:void(0);" class="rd-iconbtn text-danger flex-shrink-0" title="Revoke"
+                                    <a href="javascript:void(0);" class="rd-iconbtn text-danger flex-shrink-0" title="{{ __('Revoke') }}"
                                        wire:click="revoke({{ $token->id }})"
-                                       wire:confirm="Revoke token “{{ $token->name }}”? Any script using it stops working immediately.">
+                                       wire:confirm="{{ __('Revoke token “:name”? Any script using it stops working immediately.', ['name' => $token->name]) }}">
                                         <i class="ri-delete-bin-line"></i>
                                     </a>
                                 @endif
@@ -153,16 +153,16 @@
                                 @endforeach
                             </div>
                             <span class="rd-mini-sub mt-2">
-                                Last used: {{ $token->last_used_at ? $token->last_used_at->diffForHumans() : 'never' }} ·
-                                Expires: {{ $token->expires_at ? $token->expires_at->format('Y-m-d') : 'never' }}
+                                {{ __('Last used: :time', ['time' => $token->last_used_at ? $token->last_used_at->diffForHumans() : __('never')]) }} ·
+                                {{ __('Expires: :date', ['date' => $token->expires_at ? \App\Support\LocalDate::date($token->expires_at) : __('never')]) }}
                             </span>
                     </div>
                 @empty
                     <div class="rd-empty">
                         <div class="rd-empty-icon"><i class="ri-key-2-line"></i></div>
-                        <p class="rd-empty-title">No API tokens yet.</p>
+                        <p class="rd-empty-title">{{ __('No API tokens yet.') }}</p>
                         @if (auth()->user()?->consoleAllows('token', 'rw'))
-                            <button type="button" class="btn btn-sm btn-outline-light" wire:click="create">New Token</button>
+                            <button type="button" class="btn btn-sm btn-outline-light" wire:click="create">{{ __('New Token') }}</button>
                         @endif
                     </div>
                 @endforelse
@@ -176,30 +176,29 @@
                 <div class="modal-content">
                     <form wire:submit="save">
                         <div class="modal-header">
-                            <h5 class="modal-title">New API Token</h5>
-                            <button type="button" class="btn-close" wire:click="closeModal" aria-label="Close"></button>
+                            <h5 class="modal-title">{{ __('New API Token') }}</h5>
+                            <button type="button" class="btn-close" wire:click="closeModal" aria-label="{{ __('Close') }}"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label" for="at-name">Name <span class="text-danger">*</span></label>
+                                <label class="form-label" for="at-name">{{ __('Name') }} <span class="text-danger">*</span></label>
                                 <input type="text" id="at-name" class="form-control @error('name') is-invalid @enderror"
-                                       wire:model="name" placeholder="e.g. Ansible provisioning" autocomplete="off">
+                                       wire:model="name" placeholder="{{ __('e.g. Ansible provisioning') }}" autocomplete="off">
                                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="at-expires">Expires in (days)</label>
+                                <label class="form-label" for="at-expires">{{ __('Expires in (days)') }}</label>
                                 <input type="number" id="at-expires" min="1" max="3650" style="max-width:160px;"
                                        class="form-control @error('expiresDays') is-invalid @enderror"
-                                       wire:model="expiresDays" placeholder="Never">
+                                       wire:model="expiresDays" placeholder="{{ __('Never') }}">
                                 @error('expiresDays') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                <div class="form-text">Leave blank for a token that never expires.</div>
+                                <div class="form-text">{{ __('Leave blank for a token that never expires.') }}</div>
                             </div>
 
-                            <label class="form-label">Permissions</label>
+                            <label class="form-label">{{ __('Permissions') }}</label>
                             @unless (auth()->user()?->is_admin)
-                                <div class="form-text mb-1">A token can never be granted more than you hold yourself —
-                                    anything above your own level is reduced when the token is created.</div>
+                                <div class="form-text mb-1">{{ __('A token can never be granted more than you hold yourself — anything above your own level is reduced when the token is created.') }}</div>
                             @endunless
                             @error('permissions') <div class="text-danger fs-13 mb-1">{{ $message }}</div> @enderror
                             {{-- Desktop: radio grid --}}
@@ -207,10 +206,10 @@
                                 <table class="table table-sm table-centered mb-0">
                                     <thead>
                                     <tr>
-                                        <th>Resource</th>
-                                        <th class="text-center">None</th>
-                                        <th class="text-center">Read</th>
-                                        <th class="text-center">Read/Write</th>
+                                        <th>{{ __('Resource') }}</th>
+                                        <th class="text-center">{{ __('None') }}</th>
+                                        <th class="text-center">{{ __('Read') }}</th>
+                                        <th class="text-center">{{ __('Read/Write') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -245,10 +244,10 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-light" wire:click="closeModal">Cancel</button>
+                            <button type="button" class="btn btn-light" wire:click="closeModal">{{ __('Cancel') }}</button>
                             <button type="submit" class="btn btn-primary">
-                                <span wire:loading.remove wire:target="save"><i class="ri-key-2-line me-1"></i>Create Token</span>
-                                <span wire:loading wire:target="save">Creating…</span>
+                                <span wire:loading.remove wire:target="save"><i class="ri-key-2-line me-1"></i>{{ __('Create Token') }}</span>
+                                <span wire:loading wire:target="save">{{ __('Creating…') }}</span>
                             </button>
                         </div>
                     </form>

@@ -145,10 +145,10 @@ class ServerLink
         $configured = self::configured();
 
         $note = match (true) {
-            ! $configured => 'Not configured. Approved-only mode and incoming-only devices are not enforced.',
-            $at === null => 'Configured, but the ID server has never fetched the policy.',
-            ! $fresh => 'The ID server last fetched the policy '.Carbon::parse($at)->diffForHumans().'.',
-            default => 'The ID server fetched the policy '.Carbon::parse($at)->diffForHumans().'.',
+            ! $configured => __('Not configured. Approved-only mode and incoming-only devices are not enforced.'),
+            $at === null => __('Configured, but the ID server has never fetched the policy.'),
+            ! $fresh => __('The ID server last fetched the policy :time.', ['time' => Carbon::parse($at)->diffForHumans()]),
+            default => __('The ID server fetched the policy :time.', ['time' => Carbon::parse($at)->diffForHumans()]),
         };
 
         return [

@@ -279,9 +279,9 @@ final class DuplicateDevices
     /** One line for a tooltip: "Possible duplicate of 123 (same hostname)". */
     public function summary(int $id): string
     {
-        $parts = array_map(fn ($t) => $t['device']->rustdesk_id.' ('.$t['label'].')', $this->twinsOf($id));
+        $parts = array_map(fn ($t) => $t['device']->rustdesk_id.' ('.__($t['label']).')', $this->twinsOf($id));
 
-        return $parts === [] ? '' : 'Possible duplicate of '.implode(', ', $parts);
+        return $parts === [] ? '' : __('Possible duplicate of :devices', ['devices' => implode(', ', $parts)]);
     }
 
     /**

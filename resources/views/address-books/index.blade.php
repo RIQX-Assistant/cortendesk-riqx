@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Address Books')
-@section('subtitle', 'Manage')
+@section('title', __('Address Books'))
+@section('subtitle', __('Manage'))
 
 @section('content')
     @livewire(App\Livewire\AddressBookManager::class)

@@ -5,37 +5,37 @@
          when something is actually waiting. --}}
     <div class="rd-chiprow">
         <button type="button" class="rd-chip rd-chip-btn rd-tone-blue @if(! $trashed && ! $pendingTab && $status === 'all') rd-chip-active @endif"
-                wire:click="filterByChip('all')" title="Show every device">
+                wire:click="filterByChip('all')" title="{{ __('Show every device') }}">
             <i class="ri-computer-line rd-chip-icon"></i>
             <span class="rd-chip-value">{{ $totalCount }}</span>
-            <span class="rd-chip-label">Devices</span>
+            <span class="rd-chip-label">{{ __('Devices') }}</span>
         </button>
         <button type="button" class="rd-chip rd-chip-btn rd-tone-green @if(! $trashed && ! $pendingTab && $status === 'online') rd-chip-active @endif"
-                wire:click="filterByChip('online')" title="Only devices online now">
+                wire:click="filterByChip('online')" title="{{ __('Only devices online now') }}">
             <span class="rd-chip-dot"></span>
             <span class="rd-chip-value">{{ $onlineCount }}</span>
-            <span class="rd-chip-label">Online</span>
+            <span class="rd-chip-label">{{ __('Online') }}</span>
         </button>
         <button type="button" class="rd-chip rd-chip-btn rd-tone-muted @if(! $trashed && ! $pendingTab && $status === 'offline') rd-chip-active @endif"
-                wire:click="filterByChip('offline')" title="Only devices currently offline">
+                wire:click="filterByChip('offline')" title="{{ __('Only devices currently offline') }}">
             <span class="rd-chip-dot"></span>
             <span class="rd-chip-value">{{ $totalCount - $onlineCount }}</span>
-            <span class="rd-chip-label">Offline</span>
+            <span class="rd-chip-label">{{ __('Offline') }}</span>
         </button>
         @if ($duplicates && ($duplicates->count() > 0 || $status === 'duplicates'))
             <button type="button" class="rd-chip rd-chip-btn rd-tone-amber @if(! $trashed && ! $pendingTab && $status === 'duplicates') rd-chip-active @endif"
-                    wire:click="filterByChip('duplicates')" title="Devices that look like another device under a new ID">
+                    wire:click="filterByChip('duplicates')" title="{{ __('Devices that look like another device under a new ID') }}">
                 <i class="ri-file-copy-2-line rd-chip-icon"></i>
                 <span class="rd-chip-value">{{ $duplicates->count() }}</span>
-                <span class="rd-chip-label">Possible duplicates</span>
+                <span class="rd-chip-label">{{ __('Possible duplicates') }}</span>
             </button>
         @endif
         @if ($pendingCount > 0)
             <button type="button" class="rd-chip rd-chip-btn rd-tone-amber @if($pendingTab) rd-chip-active @endif"
-                    wire:click="openPending" title="Devices waiting for approval">
+                    wire:click="openPending" title="{{ __('Devices waiting for approval') }}">
                 <i class="ri-time-line rd-chip-icon"></i>
                 <span class="rd-chip-value">{{ $pendingCount }}</span>
-                <span class="rd-chip-label">Pending</span>
+                <span class="rd-chip-label">{{ __('Pending') }}</span>
             </button>
         @endif
     </div>
@@ -47,26 +47,26 @@
             <div class="rd-toolbar-search">
                 <div class="input-group">
                     <span class="input-group-text"><i class="ri-search-line"></i></span>
-                    <input type="search" class="form-control" placeholder="Search ID, alias, hostname, user, IP…"
+                    <input type="search" class="form-control" placeholder="{{ __('Search ID, alias, hostname, user, IP…') }}"
                            wire:model.live.debounce.300ms="search">
                 </div>
             </div>
             <select class="form-select rd-toolbar-filter" wire:model.live="status" @disabled($trashed)>
-                <option value="all">All statuses</option>
-                <option value="online">Online</option>
-                <option value="offline">Offline</option>
-                <option value="duplicates">Duplicates</option>
+                <option value="all">{{ __('All statuses') }}</option>
+                <option value="online">{{ __('Online') }}</option>
+                <option value="offline">{{ __('Offline') }}</option>
+                <option value="duplicates">{{ __('Duplicates') }}</option>
             </select>
             <select class="form-select rd-toolbar-filter" wire:model.live="group">
-                <option value="0">All groups</option>
+                <option value="0">{{ __('All groups') }}</option>
                 @foreach ($groups as $g)
                     <option value="{{ $g->id }}">{{ $g->name }}</option>
                 @endforeach
             </select>
             @if (auth()->user()?->is_admin)
                 <select class="form-select rd-toolbar-filter" wire:model.live="owner">
-                    <option value="0">All owners</option>
-                    <option value="-1">Unassigned</option>
+                    <option value="0">{{ __('All owners') }}</option>
+                    <option value="-1">{{ __('Unassigned') }}</option>
                     @foreach ($users as $u)
                         <option value="{{ $u->id }}">{{ $u->username }}</option>
                     @endforeach
@@ -78,29 +78,29 @@
                 from the component's own allowlist so the two cannot drift.
             --}}
             <div class="rd-sort-mobile d-md-none">
-                <select class="form-select rd-toolbar-filter" aria-label="Sort devices by"
+                <select class="form-select rd-toolbar-filter" aria-label="{{ __('Sort devices by') }}"
                         wire:change="selectSort($event.target.value)">
                     @foreach (\App\Livewire\DeviceList::SORTABLE as $key => $unused)
                         @continue($key === 'owner' && ! auth()->user()?->is_admin)
                         <option value="{{ $key }}" @selected($sortField === $key)>
-                            Sort: {{ $key === 'id' ? 'ID' : (\App\Livewire\DeviceList::COLUMNS[$key] ?? 'Status') }}
+                            {{ __('Sort: :column', ['column' => $key === 'id' ? 'ID' : __(\App\Livewire\DeviceList::COLUMNS[$key] ?? 'Status')]) }}
                         </option>
                     @endforeach
                 </select>
                 <button type="button" class="btn btn-outline-light" wire:click="sortBy('{{ $sortField }}')"
-                        aria-label="Reverse sort order" title="Reverse sort order">
+                        aria-label="{{ __('Reverse sort order') }}" title="{{ __('Reverse sort order') }}">
                     <i class="{{ $sortDirection === 'asc' ? 'ri-sort-asc' : 'ri-sort-desc' }}"></i>
                 </button>
             </div>
             <div class="rd-toolbar-actions">
-                <button type="button" class="btn btn-outline-light" wire:click="resetFilters">Reset</button>
+                <button type="button" class="btn btn-outline-light" wire:click="resetFilters">{{ __('Reset') }}</button>
                 @if ($trashed)
                     <button type="button" class="btn btn-light" wire:click="$set('trashed', false)">
-                        <i class="ri-arrow-left-line"></i>Back to Devices
+                        <i class="ri-arrow-left-line"></i>{{ __('Back to Devices') }}
                     </button>
                 @elseif (auth()->user()?->consoleAllows('device', 'rw'))
                     <button type="button" class="btn btn-primary" wire:click="create">
-                        <i class="ri-add-line"></i>Add Device
+                        <i class="ri-add-line"></i>{{ __('Add Device') }}
                     </button>
                 @endif
             </div>
@@ -110,20 +110,20 @@
             <div class="rd-toolbar">
                 <a href="javascript:void(0);" class="fs-13 text-muted d-none d-md-inline"
                    wire:click="$toggle('columnsOpen')">
-                    <i class="ri-layout-column-line me-1"></i>Columns
+                    <i class="ri-layout-column-line me-1"></i>{{ __('Columns') }}
                 </a>
                 <a href="javascript:void(0);" class="fs-13 text-muted" wire:click="exportCsv"
-                   title="Download the current view as CSV">
-                    <i class="ri-download-2-line me-1"></i>Export CSV
+                   title="{{ __('Download the current view as CSV') }}">
+                    <i class="ri-download-2-line me-1"></i>{{ __('Export CSV') }}
                 </a>
                 @if ($pendingCount > 0)
                     <a href="javascript:void(0);" class="fs-13 text-warning fw-semibold" wire:click="$set('pendingTab', true)">
-                        <i class="ri-time-line me-1"></i>Pending approval
+                        <i class="ri-time-line me-1"></i>{{ __('Pending approval') }}
                         <span class="badge bg-warning-subtle text-warning ms-1">{{ $pendingCount }}</span>
                     </a>
                 @endif
                 <a href="javascript:void(0);" class="fs-13 text-muted ms-auto" wire:click="$set('trashed', true)">
-                    <i class="ri-delete-bin-line me-1"></i>Recycle Bin ({{ $trashedCount }})
+                    <i class="ri-delete-bin-line me-1"></i>{{ __('Recycle Bin (:count)', ['count' => $trashedCount]) }}
                 </a>
             </div>
 
@@ -140,22 +140,22 @@
                                 <div class="form-check form-check-inline m-0">
                                     <input type="checkbox" class="form-check-input" id="col-{{ $key }}"
                                            value="{{ $key }}" wire:model.live="columns">
-                                    <label class="form-check-label fs-13" for="col-{{ $key }}">{{ $label }}</label>
+                                    <label class="form-check-label fs-13" for="col-{{ $key }}">{{ __($label) }}</label>
                                 </div>
                             @endforeach
                             <div class="ms-auto d-flex gap-2">
-                                <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetColumns">Defaults</button>
-                                <button type="button" class="btn btn-sm btn-light" wire:click="$set('columnsOpen', false)">Done</button>
+                                <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetColumns">{{ __('Defaults') }}</button>
+                                <button type="button" class="btn btn-sm btn-light" wire:click="$set('columnsOpen', false)">{{ __('Done') }}</button>
                             </div>
                         </div>
-                        <div class="form-text">Your selection is saved to your account.</div>
+                        <div class="form-text">{{ __('Your selection is saved to your account.') }}</div>
                     </div>
                 </div>
             @endif
         @else
             <div class="rd-toolbar">
                 <div class="alert alert-warning py-2 mb-0 w-100">
-                    <i class="ri-delete-bin-line me-1"></i>Recycle bin — devices here are hidden from the console and API but not destroyed.
+                    <i class="ri-delete-bin-line me-1"></i>{{ __('Recycle bin — devices here are hidden from the console and API but not destroyed.') }}
                 </div>
             </div>
         @endunless
@@ -165,29 +165,29 @@
         @if (! $trashed && ($selected !== [] || $bulkResult !== ''))
             <div class="rd-toolbar d-flex flex-wrap gap-2 align-items-center">
                 @if ($selected !== [])
-                    <span class="fs-13 fw-semibold">{{ count($selected) }} selected</span>
+                    <span class="fs-13 fw-semibold">{{ __(':count selected', ['count' => count($selected)]) }}</span>
                     @if (auth()->user()?->consoleAllows('address_book', 'rw'))
                         <button type="button" class="btn btn-sm btn-light" wire:click="openAbPicker">
-                            <i class="ri-contacts-book-2-line me-1"></i>Add to Address Book…
+                            <i class="ri-contacts-book-2-line me-1"></i>{{ __('Add to Address Book…') }}
                         </button>
                     @endif
                     @if (auth()->user()?->consoleAllows('device', 'rw'))
                         <button type="button" class="btn btn-sm btn-light" wire:click="openGroupPicker">
-                            <i class="ri-folder-transfer-line me-1"></i>Move to Group…
+                            <i class="ri-folder-transfer-line me-1"></i>{{ __('Move to Group…') }}
                         </button>
                         <button type="button" class="btn btn-sm btn-light" wire:click="setIncomingOnly(true)"
-                                title="The ID server refuses sessions these devices start">
-                            <i class="ri-login-box-line me-1"></i>Incoming only
+                                title="{{ __('The ID server refuses sessions these devices start') }}">
+                            <i class="ri-login-box-line me-1"></i>{{ __('Incoming only') }}
                         </button>
                         <button type="button" class="btn btn-sm btn-light" wire:click="setIncomingOnly(false)"
-                                title="Let these devices start sessions again">
-                            <i class="ri-arrow-left-right-line me-1"></i>Allow outgoing
+                                title="{{ __('Let these devices start sessions again') }}">
+                            <i class="ri-arrow-left-right-line me-1"></i>{{ __('Allow outgoing') }}
                         </button>
                         <button type="button" class="btn btn-sm btn-outline-danger" wire:click="confirmDeleteSelected">
-                            <i class="ri-delete-bin-line me-1"></i>Delete
+                            <i class="ri-delete-bin-line me-1"></i>{{ __('Delete') }}
                         </button>
                     @endif
-                    <a href="javascript:void(0);" class="fs-13 text-muted" wire:click="clearSelection">Clear</a>
+                    <a href="javascript:void(0);" class="fs-13 text-muted" wire:click="clearSelection">{{ __('Clear') }}</a>
                 @endif
                 @if ($bulkResult !== '')
                     <span class="fs-13 text-success"><i class="ri-check-line me-1"></i>{{ $bulkResult }}</span>
@@ -205,33 +205,33 @@
                             @php $pageIds = $devices->pluck('id')->map(fn ($i) => (string) $i); @endphp
                             @if ($pageIds->isNotEmpty() && $pageIds->diff($selected)->isEmpty())
                                 <input type="checkbox" class="form-check-input" checked
-                                       wire:click="clearSelection" title="Clear selection">
+                                       wire:click="clearSelection" title="{{ __('Clear selection') }}">
                             @else
                                 <input type="checkbox" class="form-check-input"
-                                       wire:click="selectPage" title="Select every row on this page">
+                                       wire:click="selectPage" title="{{ __('Select every row on this page') }}">
                             @endif
                         @endunless
                     </th>
                     <x-sortable-th field="id" :sort="$sortField" :dir="$sortDirection">ID</x-sortable-th>
                     @foreach (['device' => 'Device', 'alias' => 'Alias', 'group' => 'Group', 'owner' => 'Owner', 'version' => 'Version'] as $key => $label)
                         @if ($cols[$key])
-                            <x-sortable-th :field="$key" :sort="$sortField" :dir="$sortDirection">{{ $label }}</x-sortable-th>
+                            <x-sortable-th :field="$key" :sort="$sortField" :dir="$sortDirection">{{ __($label) }}</x-sortable-th>
                         @endif
                     @endforeach
-                    @if ($cols['os'])<x-sortable-th field="os" :sort="$sortField" :dir="$sortDirection">OS</x-sortable-th>@endif
-                    @if ($cols['username'])<th>User</th>@endif
+                    @if ($cols['os'])<x-sortable-th field="os" :sort="$sortField" :dir="$sortDirection">{{ __('OS') }}</x-sortable-th>@endif
+                    @if ($cols['username'])<th>{{ __('User') }}</th>@endif
                     @if ($cols['ip'])<th>IP</th>@endif
-                    @if ($cols['lan_ip'])<th title="Last seen during a connection">LAN IP</th>@endif
+                    @if ($cols['lan_ip'])<th title="{{ __('Last seen during a connection') }}">LAN IP</th>@endif
                     @if ($cols['cpu'])<th>CPU</th>@endif
-                    @if ($cols['memory'])<th>Memory</th>@endif
+                    @if ($cols['memory'])<th>{{ __('Memory') }}</th>@endif
                     @if ($cols['uuid'])<th>UUID</th>@endif
                     @foreach (['first_seen' => 'First Seen', 'last_seen' => 'Last Seen'] as $key => $label)
                         @if ($cols[$key])
-                            <x-sortable-th :field="$key" :sort="$sortField" :dir="$sortDirection">{{ $label }}</x-sortable-th>
+                            <x-sortable-th :field="$key" :sort="$sortField" :dir="$sortDirection">{{ __($label) }}</x-sortable-th>
                         @endif
                     @endforeach
-                    <x-sortable-th field="status" :sort="$sortField" :dir="$sortDirection">Status</x-sortable-th>
-                    <th class="text-end">Action</th>
+                    <x-sortable-th field="status" :sort="$sortField" :dir="$sortDirection">{{ __('Status') }}</x-sortable-th>
+                    <th class="text-end">{{ __('Action') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -249,7 +249,7 @@
                                 <span class="fw-semibold">{{ $device->rustdesk_id }}</span>
                             @else
                                 <a href="rustdesk://{{ $device->rustdesk_id }}" class="fw-semibold"
-                                   title="Connect with RustDesk">{{ $device->rustdesk_id }}</a>
+                                   title="{{ __('Connect with RustDesk') }}">{{ $device->rustdesk_id }}</a>
                             @endif
                         </td>
                         @if ($cols['device'])
@@ -299,7 +299,7 @@
                         @if ($cols['ip'])<td class="rd-mono fs-13 rd-nowrap">{{ $device->last_online_ip ?: '—' }}</td>@endif
                         @if ($cols['lan_ip'])
                             <td class="rd-mono fs-13 rd-nowrap"
-                                title="{{ $device->lan_ip ? 'Seen during a connection '.$device->lan_ip_seen_at?->diffForHumans() : 'Not seen yet. Learned when a session is set up on the same network.' }}">{{ $device->lan_ip ?: '—' }}</td>
+                                title="{{ $device->lan_ip ? __('Seen during a connection :time', ['time' => $device->lan_ip_seen_at?->diffForHumans()]) : __('Not seen yet. Learned when a session is set up on the same network.') }}">{{ $device->lan_ip ?: '—' }}</td>
                         @endif
                         @if ($cols['cpu'])
                             <td><span class="fs-13" title="{{ $device->cpu }}">{{ $device->cpu ? \Illuminate\Support\Str::limit($device->cpu, 24) : '—' }}</span></td>
@@ -309,35 +309,35 @@
                             <td><span class="rd-mono fs-13" title="{{ $device->uuid }}">{{ $device->uuid ? \Illuminate\Support\Str::limit($device->uuid, 12) : '—' }}</span></td>
                         @endif
                         @if ($cols['first_seen'])
-                            <td><span title="{{ $device->created_at }}">{{ $device->created_at?->format('Y-m-d') ?? '—' }}</span></td>
+                            <td><span title="{{ \App\Support\LocalDate::dateTimeSeconds($device->created_at) }}">{{ \App\Support\LocalDate::date($device->created_at) ?? '—' }}</span></td>
                         @endif
                         @if ($cols['last_seen'])
                             <td>
-                                <span title="{{ $device->last_online_at }}">
-                                    {{ $device->last_online_at?->diffForHumans() ?? 'never' }}
+                                <span title="{{ \App\Support\LocalDate::dateTimeSeconds($device->last_online_at) }}">
+                                    {{ $device->last_online_at?->diffForHumans() ?? __('never') }}
                                 </span>
                             </td>
                         @endif
                         <td>
                             @if ($trashed)
-                                <span class="badge bg-warning-subtle text-warning">Deleted</span>
+                                <span class="badge bg-warning-subtle text-warning">{{ __('Deleted') }}</span>
                             @elseif ($device->isOnline())
-                                <span class="badge bg-success-subtle text-success"><i class="rd-dot"></i>Online</span>
+                                <span class="badge bg-success-subtle text-success"><i class="rd-dot"></i>{{ __('Online') }}</span>
                             @else
-                                <span class="badge bg-secondary-subtle text-secondary"><i class="rd-dot"></i>Offline</span>
+                                <span class="badge bg-secondary-subtle text-secondary"><i class="rd-dot"></i>{{ __('Offline') }}</span>
                             @endif
                             @if ($device->isIncomingOnly())
-                                <span class="badge bg-info-subtle text-info ms-1" title="Can be controlled, cannot start sessions">Incoming only</span>
+                                <span class="badge bg-info-subtle text-info ms-1" title="{{ __('Can be controlled, cannot start sessions') }}">{{ __('Incoming only') }}</span>
                             @endif
                             @include('livewire.partials.device-duplicate-badge', ['class' => 'ms-1'])
                         </td>
                         <td class="text-end rd-rowact">
                             @if ($trashed)
                                 @if (auth()->user()?->consoleAllows('device', 'rw'))
-                                    <a href="javascript:void(0);" class="text-success me-2" wire:click="restoreDevice({{ $device->id }})">Restore</a>
+                                    <a href="javascript:void(0);" class="text-success me-2" wire:click="restoreDevice({{ $device->id }})">{{ __('Restore') }}</a>
                                     <a href="javascript:void(0);" class="text-danger"
                                        wire:click="forceDeleteDevice({{ $device->id }})"
-                                       wire:confirm="PERMANENTLY delete device {{ $device->rustdesk_id }}? This cannot be undone.">Destroy</a>
+                                       wire:confirm="{{ __('PERMANENTLY delete device :id? This cannot be undone.', ['id' => $device->rustdesk_id]) }}">{{ __('Destroy') }}</a>
                                 @endif
                             @else
                                 {{-- Row actions are neutral; only the destructive one
@@ -347,18 +347,18 @@
                                 @if (config('cortendesk.native_webclient'))
                                     <a href="{{ route('webclient') }}?id={{ $device->rustdesk_id }}"
                                        target="cortendesk-webclient" rel="noopener" class="rd-act me-2"
-                                       title="Connect in the browser (native client)"><i class="ri-remote-control-line me-1"></i>Connect</a>
+                                       title="{{ __('Connect in the browser (native client)') }}"><i class="ri-remote-control-line me-1"></i>{{ __('Connect') }}</a>
                                 @endif
                                 @if (config('cortendesk.webclient_url'))
                                     <a href="{{ config('cortendesk.webclient_url') }}?id={{ $device->rustdesk_id }}"
                                        target="cortendesk-webclient" rel="noopener" class="rd-act me-2"
-                                       title="Connect in the browser">Web Client</a>
+                                       title="{{ __('Connect in the browser') }}">{{ __('Web Client') }}</a>
                                 @endif
-                                <a href="{{ route('devices.show', $device->id) }}" class="rd-act me-2" title="View details"><i class="ri-eye-line"></i></a>
+                                <a href="{{ route('devices.show', $device->id) }}" class="rd-act me-2" title="{{ __('View details') }}"><i class="ri-eye-line"></i></a>
                                 @if (auth()->user()?->consoleAllows('device', 'rw'))
-                                    <a href="javascript:void(0);" class="rd-act me-2" wire:click="edit({{ $device->id }})">Edit</a>
+                                    <a href="javascript:void(0);" class="rd-act me-2" wire:click="edit({{ $device->id }})">{{ __('Edit') }}</a>
                                     <a href="javascript:void(0);" class="text-danger"
-                                       wire:click="confirmDelete({{ $device->id }})">Delete</a>
+                                       wire:click="confirmDelete({{ $device->id }})">{{ __('Delete') }}</a>
                                 @endif
                             @endif
                         </td>
@@ -368,16 +368,16 @@
                         <td colspan="{{ $colspan }}" class="rd-empty-cell">
                             <div class="rd-empty">
                                 <div class="rd-empty-icon"><i class="{{ $trashed ? 'ri-delete-bin-line' : 'ri-computer-line' }}"></i></div>
-                                <p class="rd-empty-title">{{ $trashed ? 'Recycle bin is empty.' : 'No devices match your filters.' }}</p>
+                                <p class="rd-empty-title">{{ $trashed ? __('Recycle bin is empty.') : __('No devices match your filters.') }}</p>
                                 <p class="rd-empty-text">
                                     {{ $trashed
-                                        ? 'Deleted devices land here until they are destroyed for good.'
-                                        : 'Devices register themselves the first time a RustDesk client signs in to this server.' }}
+                                        ? __('Deleted devices land here until they are destroyed for good.')
+                                        : __('Devices register themselves the first time a RustDesk client signs in to this server.') }}
                                 </p>
                                 @unless ($trashed)
-                                    <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">Clear filters</button>
+                                    <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">{{ __('Clear filters') }}</button>
                                     @if (auth()->user()?->consoleAllows('setting', 'r'))
-                                        <a href="{{ route('setup') }}" class="btn btn-sm btn-primary">Set up a client</a>
+                                        <a href="{{ route('setup') }}" class="btn btn-sm btn-primary">{{ __('Set up a client') }}</a>
                                     @endif
                                 @endunless
                             </div>
@@ -400,31 +400,31 @@
                                     <span class="rd-mini-title text-truncate">{{ $device->rustdesk_id }}</span>
                                 @else
                                     <a href="rustdesk://{{ $device->rustdesk_id }}" class="rd-mini-title text-truncate"
-                                       title="Connect with RustDesk">{{ $device->rustdesk_id }}</a>
+                                       title="{{ __('Connect with RustDesk') }}">{{ $device->rustdesk_id }}</a>
                                 @endif
                                 @if ($trashed)
                                     <span class="rd-mini-sub text-truncate">{{ $device->alias ?: $device->hostname }}</span>
                                 @else
-                                    <a href="{{ route('devices.show', $device->id) }}" class="rd-mini-sub text-truncate">{{ $device->alias ?: $device->hostname ?: 'Details' }}</a>
+                                    <a href="{{ route('devices.show', $device->id) }}" class="rd-mini-sub text-truncate">{{ $device->alias ?: $device->hostname ?: __('Details') }}</a>
                                 @endif
                             </div>
                         </div>
                         @unless ($trashed)
                             <input type="checkbox" class="form-check-input flex-shrink-0" value="{{ $device->id }}"
-                                   wire:model.live="selected" aria-label="Select device {{ $device->rustdesk_id }}">
+                                   wire:model.live="selected" aria-label="{{ __('Select device :id', ['id' => $device->rustdesk_id]) }}">
                         @endunless
                         @if ($trashed)
-                            <span class="badge bg-warning-subtle text-warning flex-shrink-0">Deleted</span>
+                            <span class="badge bg-warning-subtle text-warning flex-shrink-0">{{ __('Deleted') }}</span>
                         @elseif ($device->isOnline())
-                            <span class="badge bg-success-subtle text-success flex-shrink-0">Online</span>
+                            <span class="badge bg-success-subtle text-success flex-shrink-0">{{ __('Online') }}</span>
                         @else
-                            <span class="badge bg-secondary-subtle text-secondary flex-shrink-0">Offline</span>
+                            <span class="badge bg-secondary-subtle text-secondary flex-shrink-0">{{ __('Offline') }}</span>
                         @endif
                     </div>
                     @if ($device->isIncomingOnly() || $duplicates?->has($device->id))
                         <div class="mb-1 d-flex flex-wrap gap-1">
                             @if ($device->isIncomingOnly())
-                                <span class="badge bg-info-subtle text-info" title="Can be controlled, cannot start sessions">Incoming only</span>
+                                <span class="badge bg-info-subtle text-info" title="{{ __('Can be controlled, cannot start sessions') }}">{{ __('Incoming only') }}</span>
                             @endif
                             @include('livewire.partials.device-duplicate-badge')
                         </div>
@@ -432,31 +432,31 @@
                     <div class="rd-mini-foot">
                         <span class="rd-mini-sub min-width-0">
                             {{ $device->username }} · v{{ $device->version ?: '?' }} ·
-                            <span class="text-nowrap">{{ $device->last_online_at?->diffForHumans(short: true) ?? 'never' }}</span>
+                            <span class="text-nowrap">{{ $device->last_online_at?->diffForHumans(short: true) ?? __('never') }}</span>
                         </span>
                         <div class="rd-mini-acts">
                             @if ($trashed)
                                 @if (auth()->user()?->consoleAllows('device', 'rw'))
-                                    <a href="javascript:void(0);" class="rd-iconbtn text-success" title="Restore" wire:click="restoreDevice({{ $device->id }})"><i class="ri-arrow-go-back-line"></i></a>
-                                    <a href="javascript:void(0);" class="rd-iconbtn text-danger" title="Destroy"
+                                    <a href="javascript:void(0);" class="rd-iconbtn text-success" title="{{ __('Restore') }}" wire:click="restoreDevice({{ $device->id }})"><i class="ri-arrow-go-back-line"></i></a>
+                                    <a href="javascript:void(0);" class="rd-iconbtn text-danger" title="{{ __('Destroy') }}"
                                        wire:click="forceDeleteDevice({{ $device->id }})"
-                                       wire:confirm="PERMANENTLY delete device {{ $device->rustdesk_id }}?"><i class="ri-close-circle-line"></i></a>
+                                       wire:confirm="{{ __('PERMANENTLY delete device :id?', ['id' => $device->rustdesk_id]) }}"><i class="ri-close-circle-line"></i></a>
                                 @endif
                             @else
                                 @if (config('cortendesk.native_webclient'))
                                     <a href="{{ route('webclient') }}?id={{ $device->rustdesk_id }}"
                                        target="cortendesk-webclient" rel="noopener" class="rd-iconbtn"
-                                       title="Connect in the browser (native client)"><i class="ri-remote-control-line"></i></a>
+                                       title="{{ __('Connect in the browser (native client)') }}"><i class="ri-remote-control-line"></i></a>
                                 @endif
                                 @if (config('cortendesk.webclient_url'))
                                     <a href="{{ config('cortendesk.webclient_url') }}?id={{ $device->rustdesk_id }}"
                                        target="cortendesk-webclient" rel="noopener" class="rd-iconbtn"
-                                       title="Connect in the browser"><i class="ri-global-line"></i></a>
+                                       title="{{ __('Connect in the browser') }}"><i class="ri-global-line"></i></a>
                                 @endif
-                                <a href="{{ route('devices.show', $device->id) }}" class="rd-iconbtn" title="View details"><i class="ri-eye-line"></i></a>
+                                <a href="{{ route('devices.show', $device->id) }}" class="rd-iconbtn" title="{{ __('View details') }}"><i class="ri-eye-line"></i></a>
                                 @if (auth()->user()?->consoleAllows('device', 'rw'))
-                                    <a href="javascript:void(0);" class="rd-iconbtn" title="Edit" wire:click="edit({{ $device->id }})"><i class="ri-pencil-line"></i></a>
-                                    <a href="javascript:void(0);" class="rd-iconbtn text-danger" title="Delete"
+                                    <a href="javascript:void(0);" class="rd-iconbtn" title="{{ __('Edit') }}" wire:click="edit({{ $device->id }})"><i class="ri-pencil-line"></i></a>
+                                    <a href="javascript:void(0);" class="rd-iconbtn text-danger" title="{{ __('Delete') }}"
                                        wire:click="confirmDelete({{ $device->id }})"><i class="ri-delete-bin-line"></i></a>
                                 @endif
                             @endif
@@ -466,16 +466,16 @@
             @empty
                 <div class="rd-empty">
                     <div class="rd-empty-icon"><i class="{{ $trashed ? 'ri-delete-bin-line' : 'ri-computer-line' }}"></i></div>
-                    <p class="rd-empty-title">{{ $trashed ? 'Recycle bin is empty.' : 'No devices match your filters.' }}</p>
+                    <p class="rd-empty-title">{{ $trashed ? __('Recycle bin is empty.') : __('No devices match your filters.') }}</p>
                     <p class="rd-empty-text">
                         {{ $trashed
-                            ? 'Deleted devices land here until they are destroyed for good.'
-                            : 'Devices register themselves the first time a RustDesk client signs in to this server.' }}
+                            ? __('Deleted devices land here until they are destroyed for good.')
+                            : __('Devices register themselves the first time a RustDesk client signs in to this server.') }}
                     </p>
                     @unless ($trashed)
-                        <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">Clear filters</button>
+                        <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">{{ __('Clear filters') }}</button>
                         @if (auth()->user()?->consoleAllows('setting', 'r'))
-                            <a href="{{ route('setup') }}" class="btn btn-sm btn-primary">Set up a client</a>
+                            <a href="{{ route('setup') }}" class="btn btn-sm btn-primary">{{ __('Set up a client') }}</a>
                         @endif
                     @endunless
                 </div>
@@ -483,7 +483,7 @@
         </div>
 
         <div class="rd-tablefoot">
-            <span>Showing {{ $devices->firstItem() ?? 0 }}–{{ $devices->lastItem() ?? 0 }} of {{ $devices->total() }}</span>
+            <span>{{ __('Showing :from–:to of :total', ['from' => $devices->firstItem() ?? 0, 'to' => $devices->lastItem() ?? 0, 'total' => $devices->total()]) }}</span>
             {{ $devices->links() }}
         </div>
     </div>
@@ -495,29 +495,27 @@
                 <div class="modal-content">
                     <form wire:submit="addSelectedToBook">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add {{ count($selected) }} {{ Str::plural('device', count($selected)) }} to an address book</h5>
+                            <h5 class="modal-title">{{ trans_choice('Add :count device to an address book|Add :count devices to an address book', count($selected), ['count' => count($selected)]) }}</h5>
                             <button type="button" class="btn-close" wire:click="closeAbPicker"></button>
                         </div>
                         <div class="modal-body">
-                            <label class="form-label">Address book</label>
+                            <label class="form-label">{{ __('Address book') }}</label>
                             <select class="form-select @error('abBookId') is-invalid @enderror" wire:model="abBookId">
-                                <option value="0">Choose…</option>
+                                <option value="0">{{ __('Choose…') }}</option>
                                 @foreach ($books as $book)
                                     <option value="{{ $book->id }}">
-                                        {{ $book->name }}{{ $book->is_personal ? ' (personal)' : '' }}
+                                        {{ $book->name }}{{ $book->is_personal ? ' '.__('(personal)') : '' }}
                                     </option>
                                 @endforeach
                             </select>
                             @error('abBookId') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             <div class="form-text">
-                                Only books you can add entries to are listed. Devices already in the
-                                chosen book are skipped, and each entry carries the device's alias,
-                                hostname, platform and user.
+                                {{ __('Only books you can add entries to are listed. Devices already in the chosen book are skipped, and each entry carries the device\'s alias, hostname, platform and user.') }}
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-light" wire:click="closeAbPicker">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-light" wire:click="closeAbPicker">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                         </div>
                     </form>
                 </div>
@@ -536,24 +534,24 @@
                 <div class="modal-content">
                     <form wire:submit="moveSelectedToGroup">
                         <div class="modal-header">
-                            <h5 id="move-group-title" class="modal-title">Move {{ count($selected) }} {{ Str::plural('device', count($selected)) }} to a group</h5>
-                            <button type="button" class="btn-close" aria-label="Close move to group dialog" wire:click="closeGroupPicker"></button>
+                            <h5 id="move-group-title" class="modal-title">{{ trans_choice('Move :count device to a group|Move :count devices to a group', count($selected), ['count' => count($selected)]) }}</h5>
+                            <button type="button" class="btn-close" aria-label="{{ __('Close move to group dialog') }}" wire:click="closeGroupPicker"></button>
                         </div>
                         <div class="modal-body">
-                            <label class="form-label" for="move-group-id">Device group</label>
+                            <label class="form-label" for="move-group-id">{{ __('Device group') }}</label>
                             <select id="move-group-id" class="form-select @error('moveGroupId') is-invalid @enderror" wire:model="moveGroupId">
-                                <option value="-1">Choose…</option>
-                                <option value="0">No group</option>
+                                <option value="-1">{{ __('Choose…') }}</option>
+                                <option value="0">{{ __('No group') }}</option>
                                 @foreach ($groups as $group)
                                     <option value="{{ $group->id }}">{{ $group->name }}</option>
                                 @endforeach
                             </select>
                             @error('moveGroupId') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            <div class="form-text">Only device groups you can access are listed.</div>
+                            <div class="form-text">{{ __('Only device groups you can access are listed.') }}</div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-light" wire:click="closeGroupPicker">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Move</button>
+                            <button type="button" class="btn btn-light" wire:click="closeGroupPicker">{{ __('Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Move') }}</button>
                         </div>
                     </form>
                 </div>

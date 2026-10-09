@@ -49,8 +49,8 @@
      */
     window.rdCopy = function (text, button) {
         copyText(text).then(
-            function () { flash(button, 'ri-check-line', 'Copied'); },
-            function () { flash(button, 'ri-error-warning-line', 'Press Ctrl+C to copy'); }
+            function () { flash(button, 'ri-check-line', (window.riqxI18n || {}).copied || 'Copied'); },
+            function () { flash(button, 'ri-error-warning-line', (window.riqxI18n || {}).pressCtrlC || 'Press Ctrl+C to copy'); }
         );
     };
 

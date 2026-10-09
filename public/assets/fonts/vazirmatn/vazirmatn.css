@@ -1,0 +1,10 @@
+/* Vazirmatn, the RIQX Persian typeface. Copyright 2015 The Vazirmatn Project
+   Authors, SIL Open Font License 1.1 (OFL.txt). Variable font, npm vazirmatn@33.0.3. */
+
+@font-face {
+    font-family: "Vazirmatn";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("Vazirmatn-wght.woff2") format("woff2");
+}

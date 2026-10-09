@@ -120,7 +120,7 @@ class AlarmLogList extends Component
     {
         return view('livewire.alarm-log-list', [
             'alarms' => $this->query()->paginate($this->perPage),
-            'types' => AlarmLog::TYPES,
+            'types' => array_map(fn ($type) => ['label' => __($type['label'])] + $type, AlarmLog::TYPES),
         ]);
     }
 }

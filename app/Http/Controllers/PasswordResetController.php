@@ -63,14 +63,14 @@ class PasswordResetController extends Controller
             Log::info('Password reset refused', ['user' => $user->username, 'reason' => $this->refusal($user)]);
         }
 
-        return back()->with('status', self::NEUTRAL);
+        return back()->with('status', __(self::NEUTRAL));
     }
 
     public function showReset(Request $request, string $token): View|RedirectResponse
     {
         if (! $this->available() || ! PasswordReset::findValid($token)) {
             return redirect()->route('login')
-                ->withErrors(['username' => 'That reset link is invalid or has expired. Request a new one.']);
+                ->withErrors(['username' => __('That reset link is invalid or has expired. Request a new one.')]);
         }
 
         return view('auth.password-reset', ['token' => $token]);
@@ -90,14 +90,14 @@ class PasswordResetController extends Controller
 
         if (! $reset || ! $reset->user || ! $this->mayReset($reset->user)) {
             return redirect()->route('login')
-                ->withErrors(['username' => 'That reset link is invalid or has expired. Request a new one.']);
+                ->withErrors(['username' => __('That reset link is invalid or has expired. Request a new one.')]);
         }
 
         // Burn the link BEFORE changing anything: if two submissions race, only
         // the one that claims the row proceeds.
         if (! $reset->claim()) {
             return redirect()->route('login')
-                ->withErrors(['username' => 'That reset link has already been used.']);
+                ->withErrors(['username' => __('That reset link has already been used.')]);
         }
 
         $user = $reset->user;
@@ -118,7 +118,7 @@ class PasswordResetController extends Controller
         ]);
 
         return redirect()->route('login')
-            ->with('status', 'Your password has been reset. Sign in with the new one.');
+            ->with('status', __('Your password has been reset. Sign in with the new one.'));
     }
 
     /** Send the link. Failures are logged, never surfaced (see NEUTRAL). */

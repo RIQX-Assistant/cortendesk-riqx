@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Connection Log')
-@section('subtitle', 'Logs')
+@section('title', __('Connection Log'))
+@section('subtitle', __('Logs'))
 
 @section('content')
     @livewire(App\Livewire\ConnectionLog::class)

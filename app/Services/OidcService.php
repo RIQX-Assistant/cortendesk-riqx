@@ -447,14 +447,14 @@ class OidcService
             $discovery = $this->discovery();
             $jwks = $this->jwks();
         } catch (OidcException $e) {
-            return ['ok' => false, 'message' => $e->getMessage()];
+            return ['ok' => false, 'message' => __($e->getMessage())];
         }
 
         $keys = count($jwks['keys'] ?? []);
 
         return [
             'ok' => true,
-            'message' => 'Connected to '.$discovery['issuer'].' — '.$keys.' signing key(s) published.',
+            'message' => __('Connected to :issuer — :count signing key(s) published.', ['issuer' => $discovery['issuer'], 'count' => $keys]),
         ];
     }
 

@@ -6,21 +6,21 @@
             <div class="rd-toolbar-search">
                 <div class="input-group">
                     <span class="input-group-text"><i class="ri-search-line"></i></span>
-                    <input type="search" class="form-control" placeholder="Search device ID, from, IP, note…"
+                    <input type="search" class="form-control" placeholder="{{ __('Search device ID, from, IP, note…') }}"
                            wire:model.live.debounce.300ms="search">
                 </div>
             </div>
-            <input type="date" class="form-control rd-toolbar-filter" wire:model.live="dateFrom" aria-label="From date">
-            <input type="date" class="form-control rd-toolbar-filter" wire:model.live="dateTo" aria-label="To date">
-            <select class="form-select rd-toolbar-narrow" wire:model.live="perPage" aria-label="Rows per page">
+            <input type="date" class="form-control rd-toolbar-filter" wire:model.live="dateFrom" aria-label="{{ __('From date') }}">
+            <input type="date" class="form-control rd-toolbar-filter" wire:model.live="dateTo" aria-label="{{ __('To date') }}">
+            <select class="form-select rd-toolbar-narrow" wire:model.live="perPage" aria-label="{{ __('Rows per page') }}">
                 <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
             </select>
             <div class="rd-toolbar-actions">
-                <button type="button" class="btn btn-outline-light" wire:click="resetFilters">Reset</button>
+                <button type="button" class="btn btn-outline-light" wire:click="resetFilters">{{ __('Reset') }}</button>
                 <button type="button" class="btn btn-primary" wire:click="export">
-                    <i class="ri-download-2-line"></i>Export CSV
+                    <i class="ri-download-2-line"></i>{{ __('Export CSV') }}
                 </button>
             </div>
         </div>
@@ -30,20 +30,20 @@
             <table class="table table-hover table-centered mb-0">
                 <thead>
                 <tr>
-                    <th>When</th>
-                    <th>Controlled Device</th>
-                    <th>From</th>
-                    <th>Type</th>
+                    <th>{{ __('When') }}</th>
+                    <th>{{ __('Controlled Device') }}</th>
+                    <th>{{ __('From') }}</th>
+                    <th>{{ __('Type') }}</th>
                     <th>IP</th>
-                    <th>Duration</th>
-                    <th>Note</th>
+                    <th>{{ __('Duration') }}</th>
+                    <th>{{ __('Note') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse ($connections as $conn)
                     <tr wire:key="c{{ $conn->id }}">
                         <td>
-                            <span title="{{ $conn->created_at }}">{{ $conn->created_at?->diffForHumans() }}</span>
+                            <span title="{{ \App\Support\LocalDate::dateTimeSeconds($conn->created_at) }}">{{ $conn->created_at?->diffForHumans() }}</span>
                         </td>
                         <td><span class="fw-semibold">{{ $conn->rustdesk_id }}</span></td>
                         <td>
@@ -52,21 +52,21 @@
                         </td>
                         <td>
                             @if ($conn->conn_type === 1)
-                                <span class="badge bg-info-subtle text-info"><i class="ri-file-transfer-line me-1"></i>File Transfer</span>
+                                <span class="badge bg-info-subtle text-info"><i class="ri-file-transfer-line me-1"></i>{{ __('File Transfer') }}</span>
                             @elseif ($conn->conn_type === 2)
-                                <span class="badge bg-warning-subtle text-warning"><i class="ri-swap-line me-1"></i>Port Forward</span>
+                                <span class="badge bg-warning-subtle text-warning"><i class="ri-swap-line me-1"></i>{{ __('Port Forward') }}</span>
                             @else
-                                <span class="badge bg-primary-subtle text-primary"><i class="{{ \App\Models\AuditConnection::typeIcon((int) $conn->conn_type) }} me-1"></i>{{ \App\Models\AuditConnection::typeLabel((int) $conn->conn_type) }}</span>
+                                <span class="badge bg-primary-subtle text-primary"><i class="{{ \App\Models\AuditConnection::typeIcon((int) $conn->conn_type) }} me-1"></i>{{ __(\App\Models\AuditConnection::typeLabel((int) $conn->conn_type)) }}</span>
                             @endif
                         </td>
                         <td class="rd-mono">{{ $conn->ip ?: '—' }}</td>
                         <td>
                             @if ($conn->closed_at)
-                                <span title="Closed {{ $conn->closed_at }}">
+                                <span title="{{ __('Closed :time', ['time' => \App\Support\LocalDate::dateTimeSeconds($conn->closed_at)]) }}">
                                     {{ $conn->closed_at->shortAbsoluteDiffForHumans($conn->created_at, 2) }}
                                 </span>
                             @else
-                                <span class="badge bg-success-subtle text-success"><i class="rd-dot"></i>Active</span>
+                                <span class="badge bg-success-subtle text-success"><i class="rd-dot"></i>{{ __('Active') }}</span>
                             @endif
                         </td>
                         <td class="rd-conn-note">
@@ -85,9 +85,9 @@
                         <td colspan="7" class="rd-empty-cell">
                             <div class="rd-empty">
                                 <div class="rd-empty-icon"><i class="ri-remote-control-line"></i></div>
-                                <p class="rd-empty-title">No connections match your filters.</p>
-                                <p class="rd-empty-text">Sessions appear here as soon as a client connects to one of your devices.</p>
-                                <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">Clear filters</button>
+                                <p class="rd-empty-title">{{ __('No connections match your filters.') }}</p>
+                                <p class="rd-empty-text">{{ __('Sessions appear here as soon as a client connects to one of your devices.') }}</p>
+                                <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">{{ __('Clear filters') }}</button>
                             </div>
                         </td>
                     </tr>
@@ -104,7 +104,7 @@
                         <div class="min-width-0">
                             <span class="rd-mini-title">{{ $conn->rustdesk_id }}</span>
                             <span class="rd-mini-sub">
-                                from {{ $conn->from_peer ?: '—' }}@if ($conn->from_name) ({{ $conn->from_name }})@endif
+                                {{ __('from :peer', ['peer' => $conn->from_peer ?: '—']) }}@if ($conn->from_name) ({{ $conn->from_name }})@endif
                             </span>
                         </div>
                         @if ($conn->closed_at)
@@ -112,16 +112,16 @@
                                 {{ $conn->closed_at->shortAbsoluteDiffForHumans($conn->created_at, 2) }}
                             </span>
                         @else
-                            <span class="badge bg-success-subtle text-success"><i class="rd-dot"></i>Active</span>
+                            <span class="badge bg-success-subtle text-success"><i class="rd-dot"></i>{{ __('Active') }}</span>
                         @endif
                     </div>
                     <div class="rd-mini-foot">
                         @if ($conn->conn_type === 1)
-                            <span class="badge bg-info-subtle text-info">File Transfer</span>
+                            <span class="badge bg-info-subtle text-info">{{ __('File Transfer') }}</span>
                         @elseif ($conn->conn_type === 2)
-                            <span class="badge bg-warning-subtle text-warning">Port Forward</span>
+                            <span class="badge bg-warning-subtle text-warning">{{ __('Port Forward') }}</span>
                         @else
-                            <span class="badge bg-primary-subtle text-primary">{{ \App\Models\AuditConnection::typeLabel((int) $conn->conn_type) }}</span>
+                            <span class="badge bg-primary-subtle text-primary">{{ __(\App\Models\AuditConnection::typeLabel((int) $conn->conn_type)) }}</span>
                         @endif
                         <span class="rd-mini-sub text-end">
                             {{ $conn->ip ?: '—' }} · {{ $conn->created_at?->diffForHumans(short: true) }}
@@ -135,15 +135,15 @@
             @empty
                 <div class="rd-empty">
                     <div class="rd-empty-icon"><i class="ri-remote-control-line"></i></div>
-                    <p class="rd-empty-title">No connections match your filters.</p>
-                    <p class="rd-empty-text">Sessions appear here as soon as a client connects to one of your devices.</p>
-                    <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">Clear filters</button>
+                    <p class="rd-empty-title">{{ __('No connections match your filters.') }}</p>
+                    <p class="rd-empty-text">{{ __('Sessions appear here as soon as a client connects to one of your devices.') }}</p>
+                    <button type="button" class="btn btn-sm btn-outline-light" wire:click="resetFilters">{{ __('Clear filters') }}</button>
                 </div>
             @endforelse
         </div>
 
         <div class="rd-tablefoot">
-            <span>Showing {{ $connections->firstItem() ?? 0 }}–{{ $connections->lastItem() ?? 0 }} of {{ $connections->total() }}</span>
+            <span>{{ __('Showing :from–:to of :total', ['from' => $connections->firstItem() ?? 0, 'to' => $connections->lastItem() ?? 0, 'total' => $connections->total()]) }}</span>
             {{ $connections->links() }}
         </div>
     </div>

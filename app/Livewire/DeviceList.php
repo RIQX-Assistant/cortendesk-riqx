@@ -392,7 +392,9 @@ class DeviceList extends Component
         }
 
         $this->clearSelection();
-        $this->bulkResult = $changed.' '.Str::plural('device', $changed).' set '.$label.'.';
+        $this->bulkResult = $incomingOnly
+            ? trans_choice(':count device set incoming only.|:count devices set incoming only.', $changed, ['count' => $changed])
+            : trans_choice(':count device set allowed to start sessions.|:count devices set allowed to start sessions.', $changed, ['count' => $changed]);
     }
 
     /** Selected devices constrained to the current rendered page. */
@@ -434,7 +436,7 @@ class DeviceList extends Component
         }
 
         if ($this->moveGroupId < 0) {
-            $this->addError('moveGroupId', 'Pick a device group.');
+            $this->addError('moveGroupId', __('Pick a device group.'));
 
             return;
         }
@@ -443,7 +445,7 @@ class DeviceList extends Component
             ? null
             : $this->accessibleDeviceGroups()->firstWhere('id', $this->moveGroupId);
         if ($this->moveGroupId > 0 && ! $group) {
-            $this->addError('moveGroupId', 'Pick an accessible device group.');
+            $this->addError('moveGroupId', __('Pick an accessible device group.'));
 
             return;
         }
@@ -481,8 +483,11 @@ class DeviceList extends Component
         }
 
         $this->clearSelection();
-        $this->bulkResult = 'Moved '.$moved.' '.Str::plural('device', $moved).' to '.$targetName.'. '
-            .$unchanged.' unchanged.';
+        $this->bulkResult = trans_choice(
+            'Moved :count device to :group. :unchanged unchanged.|Moved :count devices to :group. :unchanged unchanged.',
+            $moved,
+            ['count' => $moved, 'group' => $group?->name ?? __('No group'), 'unchanged' => $unchanged],
+        );
     }
 
     public function openAbPicker(): void
@@ -512,7 +517,7 @@ class DeviceList extends Component
 
         $book = $this->writableBooks()->firstWhere('id', $this->abBookId);
         if (! $book) {
-            $this->addError('abBookId', 'Pick an address book.');
+            $this->addError('abBookId', __('Pick an address book.'));
 
             return;
         }
@@ -542,8 +547,8 @@ class DeviceList extends Component
 
         $this->abPickerOpen = false;
         $this->selected = [];
-        $this->bulkResult = 'Added '.$added.' to '.$book->name.'.'
-            .($skipped > 0 ? ' '.$skipped.' already there.' : '');
+        $this->bulkResult = __('Added :count to :book.', ['count' => $added, 'book' => $book->name])
+            .($skipped > 0 ? ' '.__(':count already there.', ['count' => $skipped]) : '');
     }
 
     /** Books the current user may add entries to (same rule as the address-book screen). */

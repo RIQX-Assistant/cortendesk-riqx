@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Console Audit')
-@section('subtitle', 'Logs')
+@section('title', __('Console Audit'))
+@section('subtitle', __('Logs'))
 
 @section('content')
     @livewire(App\Livewire\ConsoleAuditList::class)

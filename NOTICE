@@ -22,3 +22,7 @@ the AGPL.
 The vendored RustDesk protocol definitions (webclient/protos/) originate
 from the RustDesk project and are licensed AGPL-3.0, consistent with this
 repository.
+
+RIQX modifications (2026): this copy is a modified version of CortenDesk,
+changed by RIQX for branding, Persian/English translation, right-to-left layout
+and Solar Hijri dates. See riqx/README.md. Source: https://github.com/RIQX-Assistant/cortendesk-riqx

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
-@section('subtitle', 'Manage')
+@section('title', __('Users'))
+@section('subtitle', __('Manage'))
 
 @section('content')
     @livewire(App\Livewire\UserList::class)

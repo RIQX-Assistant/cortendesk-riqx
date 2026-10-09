@@ -29,7 +29,7 @@ class OidcController extends Controller
     {
         if (! $this->oidc->isEnabled()) {
             return redirect()->route('login')
-                ->withErrors(['username' => 'Single sign-on is not enabled on this console.']);
+                ->withErrors(['username' => __('Single sign-on is not enabled on this console.')]);
         }
 
         try {
@@ -37,7 +37,7 @@ class OidcController extends Controller
         } catch (OidcException $e) {
             Log::warning('OIDC: could not start sign-in', ['error' => $e->getMessage()]);
 
-            return redirect()->route('login')->withErrors(['username' => $e->getMessage()]);
+            return redirect()->route('login')->withErrors(['username' => __($e->getMessage())]);
         }
 
         return redirect()->away($url);
@@ -48,7 +48,7 @@ class OidcController extends Controller
     {
         if (! $this->oidc->isEnabled()) {
             return redirect()->route('login')
-                ->withErrors(['username' => 'Single sign-on is not enabled on this console.']);
+                ->withErrors(['username' => __('Single sign-on is not enabled on this console.')]);
         }
 
         try {
@@ -58,7 +58,7 @@ class OidcController extends Controller
 
             $this->logFailure($request, null);
 
-            return redirect()->route('login')->withErrors(['username' => $e->getMessage()]);
+            return redirect()->route('login')->withErrors(['username' => __($e->getMessage())]);
         }
 
         $claims = $result['claims'];
@@ -67,7 +67,7 @@ class OidcController extends Controller
         if ($outcome['status'] !== 'ok' || ! $outcome['user']) {
             $this->logFailure($request, (string) ($claims['preferred_username'] ?? $claims['email'] ?? 'sso'));
 
-            return redirect()->route('login')->withErrors(['username' => $outcome['message']]);
+            return redirect()->route('login')->withErrors(['username' => __($outcome['message'])]);
         }
 
         $user = $outcome['user'];

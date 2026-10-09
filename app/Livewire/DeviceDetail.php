@@ -180,7 +180,7 @@ class DeviceDetail extends Component
             $device->rustdesk_id,
         );
 
-        $this->duplicateResult = 'Devices '.$device->rustdesk_id.' and '.$twin->rustdesk_id.' will no longer be flagged.';
+        $this->duplicateResult = __('Devices :first and :second will no longer be flagged.', ['first' => $device->rustdesk_id, 'second' => $twin->rustdesk_id]);
     }
 
     public function openAbPicker(): void
@@ -210,13 +210,13 @@ class DeviceDetail extends Component
 
         $book = DeviceAddressBooks::writableBooks(auth()->user())->firstWhere('id', $this->abBookId);
         if (! $book) {
-            $this->addError('abBookId', 'Pick an address book.');
+            $this->addError('abBookId', __('Pick an address book.'));
 
             return;
         }
 
         if ($book->entries()->where('rustdesk_id', $device->rustdesk_id)->exists()) {
-            $this->abResult = 'Already in '.$book->name.'.';
+            $this->abResult = __('Already in :book.', ['book' => $book->name]);
         } else {
             $book->entries()->create(DeviceAddressBooks::entryAttributes($device));
             ConsoleAudit::record(
@@ -225,7 +225,7 @@ class DeviceDetail extends Component
                 'address-book',
                 $book->name,
             );
-            $this->abResult = 'Added to '.$book->name.'.';
+            $this->abResult = __('Added to :book.', ['book' => $book->name]);
         }
 
         $this->abPickerOpen = false;
@@ -249,7 +249,7 @@ class DeviceDetail extends Component
             );
         }
 
-        $this->abResult = 'Removed from '.$book->name.'.';
+        $this->abResult = __('Removed from :book.', ['book' => $book->name]);
     }
 
     public function render()

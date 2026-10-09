@@ -76,7 +76,7 @@ class AccountProfile extends Component
         // form isn't rendered for them — guard the action too, since a Livewire
         // call doesn't have to come from the rendered UI.
         if ($user->isSsoProvisioned()) {
-            $this->addError('currentPassword', 'This account signs in through single sign-on.');
+            $this->addError('currentPassword', __('This account signs in through single sign-on.'));
 
             return;
         }
@@ -86,14 +86,14 @@ class AccountProfile extends Component
             'password' => ['required', 'string', 'min:8', 'same:passwordConfirmation'],
             'passwordConfirmation' => ['required', 'string'],
         ], [
-            'password.same' => 'The new passwords do not match.',
-            'passwordConfirmation.required' => 'Please confirm the new password.',
+            'password.same' => __('The new passwords do not match.'),
+            'passwordConfirmation.required' => __('Please confirm the new password.'),
         ]);
 
         // Proving knowledge of the current password is what stops a hijacked
         // session from locking the real owner out.
         if (! Hash::check($this->currentPassword, $user->password)) {
-            $this->addError('currentPassword', 'That is not your current password.');
+            $this->addError('currentPassword', __('That is not your current password.'));
 
             return;
         }

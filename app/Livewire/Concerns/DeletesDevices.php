@@ -83,8 +83,8 @@ trait DeletesDevices
 
         $count = $devices->count();
         $message = $count === 1
-            ? 'Device '.$devices->first()->rustdesk_id.' moved to the recycle bin.'
-            : $count.' '.Str::plural('device', $count).' moved to the recycle bin.';
+            ? __('Device :id moved to the recycle bin.', ['id' => $devices->first()->rustdesk_id])
+            : trans_choice(':count device moved to the recycle bin.|:count devices moved to the recycle bin.', $count, ['count' => $count]);
 
         if ($fromBooks && $count > 0) {
             $result = DeviceAddressBooks::remove($devices->pluck('rustdesk_id')->all(), auth()->user());

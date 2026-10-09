@@ -347,7 +347,7 @@ class SettingsPage extends Component
 
             if ($this->oidcDiscoveryUrl === '' || $this->oidcClientId === '' || $missingSecret) {
                 $this->tab = 'sso';
-                $this->addError('oidcDiscoveryUrl', 'Provider URL, client ID and client secret are all required to enable SSO.');
+                $this->addError('oidcDiscoveryUrl', __('Provider URL, client ID and client secret are all required to enable SSO.'));
 
                 return;
             }
@@ -357,7 +357,7 @@ class SettingsPage extends Component
         // swallow every invitation and sign-in code.
         if ($this->smtpEnabled && (trim($this->smtpHost) === '' || trim($this->smtpFromAddress) === '')) {
             $this->tab = 'email';
-            $this->addError('smtpHost', 'Host and From address are both required to enable email.');
+            $this->addError('smtpHost', __('Host and From address are both required to enable email.'));
 
             return;
         }
@@ -500,7 +500,7 @@ class SettingsPage extends Component
 
         if (! $service->isConfigured()) {
             $this->oidcTestOk = false;
-            $this->oidcTestMessage = 'Save the provider URL, client ID and client secret first.';
+            $this->oidcTestMessage = __('Save the provider URL, client ID and client secret first.');
 
             return;
         }
@@ -523,7 +523,7 @@ class SettingsPage extends Component
 
         if (! $mail->isConfigured()) {
             $this->smtpTestOk = false;
-            $this->smtpTestMessage = 'Save the SMTP settings first.';
+            $this->smtpTestMessage = __('Save the SMTP settings first.');
 
             return;
         }
@@ -532,7 +532,7 @@ class SettingsPage extends Component
 
         if ($to === '' || ! filter_var($to, FILTER_VALIDATE_EMAIL)) {
             $this->smtpTestOk = false;
-            $this->smtpTestMessage = 'Enter a valid address to send the test to.';
+            $this->smtpTestMessage = __('Enter a valid address to send the test to.');
 
             return;
         }
@@ -579,8 +579,8 @@ class SettingsPage extends Component
         $delivery = app(AppriseNotifications::class)->test();
         $this->appriseTestOk = $delivery->status === NotificationDelivery::STATUS_SENT;
         $this->appriseTestMessage = $this->appriseTestOk
-            ? 'Test notification sent.'
-            : ($delivery->error ?: 'Notification delivery failed.');
+            ? __('Test notification sent.')
+            : ($delivery->error ?: __('Notification delivery failed.'));
         ConsoleAudit::record('settings.notification-test', 'Sent an Apprise test notification', 'settings', null);
     }
 
@@ -642,7 +642,7 @@ class SettingsPage extends Component
             'oidcCallbackUrl' => route('login.oidc.callback'),
             'mailEnabled' => app(MailSettings::class)->isEnabled(),
             'usersWithoutEmail' => LoginEmailVerification::usersWithoutEmail(),
-            'appriseEventLabels' => AppriseNotifications::EVENTS,
+            'appriseEventLabels' => array_map(fn ($label) => __($label), AppriseNotifications::EVENTS),
             'appriseDeviceGroups' => DeviceGroup::query()->orderBy('name')->get(['id', 'name']),
             'appriseDevices' => Device::query()->approved()->orderByRaw("COALESCE(NULLIF(alias, ''), NULLIF(hostname, ''), rustdesk_id)")->get(['id', 'rustdesk_id', 'alias', 'hostname']),
             'notificationDeliveries' => $deliveries = NotificationDelivery::query()->latest()->limit(10)->get(),

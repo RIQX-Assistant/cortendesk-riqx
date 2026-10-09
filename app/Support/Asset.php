@@ -20,6 +20,6 @@ class Asset
      */
     public static function url(string $path): string
     {
-        return asset($path).'?v='.config('cortendesk.api_version');
+        return asset($path).'?v='.config('cortendesk.api_version').'-riqx'.config('riqx.revision');
     }
 }

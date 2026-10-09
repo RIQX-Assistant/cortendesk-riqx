@@ -32,7 +32,8 @@ RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/fra
 # ---- stage 2: runtime (php-fpm + nginx under supervisord) --------------------
 FROM php:8.4-fpm-alpine
 
-RUN apk add --no-cache nginx supervisor icu-libs gettext \
+# RIQX: icu-data-full carries the Persian locale and calendar (Jalali dates).
+RUN apk add --no-cache nginx supervisor icu-libs icu-data-full gettext \
     && apk add --no-cache --virtual .build icu-dev \
     && docker-php-ext-install -j"$(nproc)" pdo_mysql bcmath opcache intl \
     && apk del .build

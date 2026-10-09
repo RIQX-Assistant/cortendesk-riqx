@@ -8,8 +8,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>{{ $peerId !== '' ? $peerId.' — ' : '' }}CortenDesk Web Client</title>
-    <link rel="shortcut icon" href="{{ \App\Support\Asset::url('assets/images/cortendesk-sm.svg') }}">
+    <title>{{ $peerId !== '' ? $peerId.' — ' : '' }}{{ __('CortenDesk Web Client') }}</title>
+    <link rel="shortcut icon" href="{{ \App\Support\Brand::url('favicon.ico') }}">
     <script src="{{ \App\Support\Asset::url('assets/js/theme-init.js') }}"></script>
     <link rel="stylesheet" href="{{ \App\Support\Asset::url('assets/vendor/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="/rdclient/app.css?v={{ $rdVer }}">

@@ -18,7 +18,7 @@ class UserInvitation extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'You have been invited to '.config('app.name'));
+        return new Envelope(subject: __('You have been invited to :app', ['app' => config('app.name')]));
     }
 
     public function content(): Content

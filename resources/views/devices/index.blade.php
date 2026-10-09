@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Devices')
-@section('subtitle', 'Manage')
+@section('title', __('Devices'))
+@section('subtitle', __('Manage'))
 
 @section('content')
     @livewire(App\Livewire\DeviceList::class)

@@ -22,7 +22,7 @@ class LoginVerificationCode extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: $this->code.' is your '.config('app.name').' sign-in code');
+        return new Envelope(subject: __(':code is your :app sign-in code', ['code' => $this->code, 'app' => config('app.name')]));
     }
 
     public function content(): Content
