@@ -84,7 +84,8 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    // RIQX: Persian by default, also where SetLocale does not run (404 pages, mail jobs).
+    'locale' => env('APP_LOCALE', env('RIQX_DEFAULT_LOCALE', 'fa')),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 

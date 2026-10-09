@@ -64,10 +64,25 @@ html[data-bs-theme="light"] {
     --rd-shell-accent-soft: rgba(111, 180, 255, 0.16);
 }
 
-/* Persian: Vazirmatn first, Figtree still draws Latin runs it covers. */
+/* Fonts (fonts/vazirmatn/vazirmatn.css). Persian text is always Vazirmatn:
+   - Persian pages: Vazirmatn for everything.
+   - Other pages: "Vazirmatn Arabic" (Persian script only) first, so a Persian
+     device name, user name or the "فارسی" switch never falls back to a
+     system font, while Latin keeps Figtree.
+   - Monospace (IDs, keys, code): the same, ahead of the monospace faces. */
+:root,
+[data-bs-theme] {
+    --bs-font-sans-serif: "Vazirmatn Arabic", "Figtree", sans-serif;
+    --bs-font-monospace: "Vazirmatn Arabic", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
 html[lang="fa"],
 html[lang="fa"] [data-bs-theme] {
     --bs-font-sans-serif: "Vazirmatn", "Figtree", sans-serif;
+}
+.rd-sidebar-version-num,
+.rd-mono,
+.rd-codechip {
+    font-family: var(--bs-font-monospace);
 }
 html[lang="fa"] body {
     line-height: 1.7;

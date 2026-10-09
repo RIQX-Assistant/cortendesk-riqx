@@ -6,6 +6,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? config('app.name') }}</title>
+    {{-- RIQX: Vazirmatn from the console for mail apps that load web fonts
+         (Apple Mail, iOS, Thunderbird); the rest fall back to Tahoma. --}}
+    <style>
+        @font-face { font-family: "Vazirmatn"; font-weight: 100 900; src: url("{{ asset('assets/fonts/vazirmatn/Vazirmatn-wght.woff2') }}") format("woff2"); }
+        body, td, p, a, span, strong { font-family: Vazirmatn, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+    </style>
 </head>
 <body style="margin:0;padding:0;background:#f4f5f7;font-family:Vazirmatn,Tahoma,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#26303e;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;padding:24px 12px;">

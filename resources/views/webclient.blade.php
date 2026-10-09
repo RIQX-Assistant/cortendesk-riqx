@@ -13,9 +13,13 @@
     <script src="{{ \App\Support\Asset::url('assets/js/theme-init.js') }}"></script>
     <link rel="stylesheet" href="{{ \App\Support\Asset::url('assets/vendor/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="/rdclient/app.css?v={{ $rdVer }}">
+    <link rel="stylesheet" href="{{ \App\Support\Asset::url('assets/fonts/vazirmatn/vazirmatn.css') }}">
     <style>
         html, body { height: 100%; margin: 0; overflow: hidden; background: #000; }
         #rd-root { height: 100vh; height: 100dvh; }
+        /* RIQX: Persian text (peer names, file names) in Vazirmatn; Latin keeps the client's faces. */
+        #rd-root { font-family: "Vazirmatn Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        #rd-root .rd-ft-table td.rd-ft-col-size, #rd-root .rd-ft-job-status, #rd-root .rd-ft-logline { font-family: "Vazirmatn Arabic", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
     </style>
 </head>
 <body>
