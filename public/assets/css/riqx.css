@@ -239,12 +239,19 @@ html[data-rd-sidebar="condensed"] .riqx-rail-unfold {
 }
 html[data-rd-sidebar="condensed"] .riqx-rail-toggle {
     position: sticky;
-    top: 38px; /* condensed logo: 10px padding + 22px mark, then 6px gap */
+    /* Logo box is 10px padding + 32px mark = 42px. The 17px rail-colour ring
+       must start below it (60 - 17 = 43), or it hides half the logo. */
+    top: 60px;
     left: auto;
     right: auto;
     display: flex;
-    margin: 6px auto 18px;
+    margin: 18px auto 18px;
     box-shadow: 0 0 0 17px var(--rd-shell-bg);
+}
+/* A readable mark on the condensed rail (upstream draws it at 22px). */
+html[data-rd-sidebar="condensed"] .rd-sidebar-logo .rd-logo-sm img {
+    height: 32px;
+    width: auto;
 }
 html[data-rd-sidebar="offcanvas"] .riqx-rail-toggle {
     display: none;
