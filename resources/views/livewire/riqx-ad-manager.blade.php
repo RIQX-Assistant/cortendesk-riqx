@@ -160,6 +160,7 @@
                                 <div class="form-text">
                                     {{ $editing ? __('Pick a file only to replace the current one.') : '' }}
                                     {{ __('PNG, JPG, WebP, GIF or MP4/WebM, up to :size MB.', ['size' => $maxMb]) }}
+                                    {{ __('MP4/WebM is turned into a silent animated image for the app (up to 60 seconds).') }}
                                 </div>
                                 <div wire:loading wire:target="file" class="form-text">{{ __('Uploading…') }}</div>
                             </div>
@@ -195,7 +196,7 @@
                                         <span class="input-group-text">{{ __('seconds') }}</span>
                                     </div>
                                     @error('durationSeconds') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
-                                    <div class="form-text">{{ __('Images and GIFs; a video plays to its end.') }}</div>
+                                    <div class="form-text">{{ __('For images. A video is shown for its own length.') }}</div>
                                 </div>
                             </div>
 

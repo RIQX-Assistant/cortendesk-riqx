@@ -23,7 +23,9 @@ class RiqxAds
     {
         $lang = in_array($lang, ['fa', 'en'], true) ? $lang : null;
 
-        $query = RiqxAd::query()->live()->orderBy('sort_order')->orderBy('id');
+        // Never 'video': apps up to r6.1 played those through libmpv, which froze
+        // the window on Windows. Uploads are converted to animated WebP instead.
+        $query = RiqxAd::query()->live()->where('media_type', '!=', 'video')->orderBy('sort_order')->orderBy('id');
         if ($lang !== null) {
             $query->whereIn('locale', ['all', $lang]);
         }

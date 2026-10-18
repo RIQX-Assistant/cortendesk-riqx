@@ -8,6 +8,7 @@ use App\Models\RiqxAd;
 use App\Models\Setting;
 use App\Support\LocalDate;
 use App\Support\RiqxAds;
+use App\Support\RiqxVideo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -130,6 +131,21 @@ class RiqxAdManager extends Component
 
             $this->file->storeAs('', $stored, ['disk' => RiqxAd::DISK]);
             $path = Storage::disk(RiqxAd::DISK)->path($stored);
+
+            // Video -> animated WebP (see App\Support\RiqxVideo for why).
+            if ($type === 'video') {
+                $webp = 'ad-'.Str::lower(Str::random(20)).'.webp';
+                $converted = RiqxVideo::toAnimatedWebp($path, Storage::disk(RiqxAd::DISK)->path($webp));
+                Storage::disk(RiqxAd::DISK)->delete($stored);
+                if ($converted === null) {
+                    $this->addError('file', __('This video could not be converted. Try another MP4 or an animated WebP/GIF.'));
+
+                    return;
+                }
+                [$type, $mime, $stored] = ['gif', 'image/webp', $webp];
+                $path = Storage::disk(RiqxAd::DISK)->path($stored);
+                $this->durationSeconds = min(300, max(3, $converted['seconds']));
+            }
 
             $width = $height = null;
             if ($type !== 'video' && ($info = @getimagesize($path))) {
