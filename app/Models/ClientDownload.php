@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
 #[Fillable([
     'label', 'platform', 'arch', 'version', 'notes',
     'filename', 'original_name', 'size', 'sha256',
-    'is_published', 'sort_order', 'uploaded_by',
+    'is_published', 'sort_order', 'uploaded_by', 'update_signature',
 ])]
 class ClientDownload extends Model
 {

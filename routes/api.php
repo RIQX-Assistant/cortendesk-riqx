@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ClientAuthController;
 use App\Http\Controllers\Api\ClientOidcController;
 use App\Http\Controllers\Api\GroupTabController;
 use App\Http\Controllers\Api\RiqxAdController;
+use App\Http\Controllers\Api\RiqxUpdateController;
 use App\Http\Controllers\Api\ServerLinkController;
 use App\Http\Controllers\Api\SyncController;
 use App\Http\Middleware\VerifyServerSecret;
@@ -58,6 +59,9 @@ Route::middleware('throttle:240,1')->group(function () {
     Route::get('/riqx/ads/media/{ad}/{sha256}.{ext}', [RiqxAdController::class, 'media'])
         ->whereNumber('ad')->where('sha256', '[0-9a-f]{64}')->where('ext', '[A-Za-z0-9]{2,5}');
 });
+
+// ---- RIQX: the latest version for the app (public, tokenless) -------------
+Route::get('/riqx/update', [RiqxUpdateController::class, 'manifest'])->middleware('throttle:240,1');
 
 // ---- Bearer-token endpoints ---------------------------------------------
 Route::middleware('auth:client')->group(function () {
