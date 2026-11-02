@@ -6,7 +6,7 @@
 return [
     // Bump with every RIQX image release: busts browser caches of our CSS/JS
     // (VERSION stays the upstream number, hbbs and clients read it).
-    'revision' => 11,
+    'revision' => 12,
 
     // Console languages: code => name shown in the switch (in its own language).
     'locales' => [
@@ -29,5 +29,6 @@ return [
 
     // AGPL-3.0 §13: users of the network service are offered the source.
     'source_url' => env('RIQX_SOURCE_URL', 'https://github.com/RIQX-Assistant/cortendesk-riqx'),
+    'client_source_url' => env('RIQX_CLIENT_SOURCE_URL', 'https://github.com/RIQX-Assistant/rustdesk-riqx'),
     'upstream_url' => 'https://github.com/marcpope/cortendesk',
 ];

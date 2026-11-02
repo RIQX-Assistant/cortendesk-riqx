@@ -79,6 +79,13 @@ Route::middleware('throttle:60,1')->group(function () {
     Route::get('/downloads/{download}', [ClientDownloadController::class, 'show'])->name('downloads.show');
 });
 
+// RIQX: public pages the app links to. /Help as the app spells it, /help for anyone typing it.
+Route::middleware('throttle:60,1')->group(function () {
+    Route::view('/privacy', 'riqx.page', ['page' => 'privacy'])->name('riqx.privacy');
+    Route::view('/Help', 'riqx.page', ['page' => 'help'])->name('riqx.help');
+    Route::permanentRedirect('/help', '/Help');
+});
+
 // RIQX: language switch (topbar and sign-in pages), signed in or not.
 Route::get('/locale/{locale}', [LocaleController::class, 'update'])
     ->middleware('throttle:30,1')->name('riqx.locale');
