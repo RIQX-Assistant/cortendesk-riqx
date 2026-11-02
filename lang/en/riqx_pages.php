@@ -54,11 +54,11 @@ return [
                     '<b>Account:</b> username, name, email (if entered), role, and your language and theme choices. Passwords are kept only as hashes.',
                     '<b>Device:</b> device ID and public key, device name, operating system user name, operating system, processor, memory, app version, last time online, and public and local IP addresses.',
                     '<b>Connection log:</b> the ID and display name of both sides, IP address, connection type, start and end time, and any note you add to the session.',
-                    '<b>File transfer log:</b> file paths and names, direction and count. The files themselves never reach the server.',
+                    '<b>File transfer log:</b> file paths and names, direction and count. The files themselves are not stored on the server.',
                     '<b>Sign-in and admin log:</b> successful and failed sign-ins with IP address and device type, and what administrators do in the console.',
                     '<b>Address book:</b> if you use it, the IDs, names and tags you save. A password kept there is encrypted.',
                     '<b>Web server log:</b> IP address, time and address of requests, for security and troubleshooting.',
-                    '<b>Cookies:</b> only for console sign-in, language and theme. We use no advertising cookies.',
+                    '<b>Cookies:</b> only for the console session and sign-in, language and theme. We use no advertising cookies.',
                 ]],
             ]],
             ['id' => 'not-stored', 'icon' => 'ri-shield-keyhole-line', 'c' => '#2fd4a8', 'title' => 'What we do not keep', 'body' => [
@@ -87,7 +87,7 @@ return [
                     'Connection, file transfer, sign-in and admin logs are deleted automatically after <b>365 days</b>.',
                     'Web server logs stay for about <b>14 days</b>.',
                     'Accounts and devices stay until they are deleted.',
-                    'The server is backed up monthly and the copies are kept off the server. The last 60 copies are kept, so deleted data can remain in a backup until that copy is dropped.',
+                    'The server is backed up monthly and the copies are kept off the server. The last 60 copies are kept. Before each console update, a copy of the database is also made on the server itself. So deleted data can remain in a backup until these copies are dropped.',
                 ]],
             ]],
             ['id' => 'security', 'icon' => 'ri-shield-check-line', 'c' => '#ffb547', 'title' => 'How we protect it', 'body' => [
