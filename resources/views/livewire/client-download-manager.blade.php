@@ -52,8 +52,8 @@
                                 <span class="badge bg-danger-subtle text-danger ms-1" title="{{ __('The stored file is missing from the downloads volume. Re-upload it.') }}">{{ __('file missing') }}</span>
                             @endunless
                         </td>
-                        <td>{{ $download->humanSize() }}</td>
-                        <td>{{ $download->version ?: '—' }}</td>
+                        <td class="text-nowrap"><bdi dir="ltr">{{ $download->humanSize() }}</bdi></td>
+                        <td class="text-nowrap"><bdi dir="ltr">{{ $download->version ?: '—' }}</bdi></td>
                         <td><span class="badge bg-secondary-subtle text-secondary">{{ $download->download_count }}</span></td>
                         <td>
                             @if ($download->is_published)
@@ -113,7 +113,7 @@
                     </div>
                     <div class="rd-mini-foot">
                         <span class="rd-mini-sub">
-                            {{ $download->humanSize() }}@if ($download->version) · {{ $download->version }}@endif ·
+                            <bdi dir="ltr">{{ $download->humanSize() }}@if ($download->version) · {{ $download->version }}@endif</bdi> ·
                             {{ trans_choice(':count download|:count downloads', $download->download_count, ['count' => $download->download_count]) }}
                         </span>
                         <div class="rd-mini-acts">

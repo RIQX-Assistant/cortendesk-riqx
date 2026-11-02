@@ -11,12 +11,13 @@
     <div {{ $attributes->merge(['class' => 'rd-dl' . ($compact ? ' rd-dl-compact' : '')]) }}>
         @foreach ($downloads as $download)
             <a class="rd-dl-tile" href="{{ route('downloads.show', $download) }}"
-               title="{{ $download->label }}{{ $download->version ? ' · ' . $download->version : '' }} · {{ $download->humanSize() }}">
+               title="{{ $download->label }} · {{ "\u{2066}" . ($download->version ? $download->version . ' · ' : '') . $download->humanSize() . "\u{2069}" }}">
                 <x-platform-icon :platform="$download->platform" size="{{ $compact ? 'fs-22' : 'fs-24' }}" class="rd-dl-icon" />
                 <span class="rd-dl-text">
                     <span class="rd-dl-label">{{ $download->label }}</span>
+                    {{-- RIQX: bdi keeps "26 MB · 1.5.0-r6.2" in order on the RTL page. --}}
                     <span class="rd-dl-meta">
-                        {{ $download->humanSize() }}@if ($download->version) · {{ $download->version }}@endif
+                        <bdi dir="ltr">{{ $download->humanSize() }}@if ($download->version) · {{ $download->version }}@endif</bdi>
                     </span>
                 </span>
                 <i class="ri-download-2-line rd-dl-arrow"></i>
