@@ -16,8 +16,8 @@ use Illuminate\Http\JsonResponse;
  */
 class RiqxUpdateController extends Controller
 {
-    /** "1.5.0-r6.3": the only shape the app compares. */
-    private const VERSION = '/^\d+\.\d+\.\d+-r\d+(\.\d+)*$/';
+    /** "1.5.1", or "1.5.0-r6.3" as the first builds were called: what the app compares. */
+    private const VERSION = '/^\d+\.\d+\.\d+(-r\d+(\.\d+)*)?$/';
 
     /** GET /api/riqx/update */
     public function manifest(): JsonResponse
