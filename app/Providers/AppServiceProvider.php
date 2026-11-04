@@ -8,8 +8,10 @@ use App\Models\ApiToken;
 use App\Models\ClientToken;
 use App\Services\FileHealthProbeLimiter;
 use App\Services\SocketTcpProbe;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('riqx-file', fn (Request $request) => Limit::perMinute(600)->by($request->ip()));
+
         // Guard for the RustDesk client API: Authorization: Bearer <token>
         // issued by POST /api/login and stored in client_tokens.
         Auth::viaRequest('client-token', function (Request $request) {
