@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ClientDownload;
 use App\Support\ClientPlatform;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -41,7 +42,7 @@ class ClientDownloadController extends Controller
         ]);
     }
 
-    public function show(ClientDownload $download): Response|StreamedResponse
+    public function show(Request $request, ClientDownload $download): Response|StreamedResponse
     {
         // Route-model binding does not know about the scope, and an
         // unpublished build must be a 404 rather than a 403 — an outsider
@@ -52,16 +53,18 @@ class ClientDownloadController extends Controller
 
         abort_unless($disk->exists($download->filename), 404);
 
-        // Not a real counter (no locking, and a resumed download counts twice);
+        // Not a real counter (no locking, and a restarted download counts twice);
         // it exists so an operator can see which build people actually take.
         // Never at the expense of the download itself: this is the only write on
         // an otherwise read-only public route, so a read-only replica, a locked
         // SQLite file or a full disk would turn every install attempt into a
         // 500. Report and hand over the file.
-        try {
-            $download->increment('download_count');
-        } catch (Throwable $e) {
-            report($e);
+        if ($this->startsTheFile($request)) {
+            try {
+                $download->increment('download_count');
+            } catch (Throwable $e) {
+                report($e);
+            }
         }
 
         $accel = (string) config('cortendesk.downloads_accel');
@@ -85,6 +88,21 @@ class ClientDownloadController extends Controller
     }
 
     /** Content-Disposition needs an ASCII filename beside the UTF-8 one. */
+    /**
+     * RIQX: only the request that starts the file is a download. A download
+     * manager's other connections ask for later ranges, and a browser probes
+     * with bytes=0-0 before it hands the link over.
+     */
+    private function startsTheFile(Request $request): bool
+    {
+        if (! $request->isMethod('GET')) {
+            return false;
+        }
+        $range = (string) $request->header('Range');
+
+        return $range === '' || (str_starts_with($range, 'bytes=0-') && $range !== 'bytes=0-0');
+    }
+
     private function asciiFallback(string $name): string
     {
         $ascii = preg_replace('/[^\x20-\x7e]/u', '_', $name)

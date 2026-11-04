@@ -76,8 +76,12 @@ Route::get('/login/oidc/client-callback',
 // scraper (the files are the expensive part, not the page).
 Route::middleware('throttle:60,1')->group(function () {
     Route::get('/downloads', [ClientDownloadController::class, 'index'])->name('downloads.index');
-    Route::get('/downloads/{download}', [ClientDownloadController::class, 'show'])->name('downloads.show');
 });
+// RIQX: a download manager opens up to 16 connections per file and retries them,
+// and at 60 a minute the third or fourth file got a 429 (docs/12). nginx sends
+// the bytes, so a hit here costs little.
+Route::get('/downloads/{download}', [ClientDownloadController::class, 'show'])
+    ->middleware('throttle:600,1')->name('downloads.show');
 
 // RIQX: public pages the app links to. /Help as the app spells it, /help for anyone typing it.
 Route::middleware('throttle:60,1')->group(function () {
